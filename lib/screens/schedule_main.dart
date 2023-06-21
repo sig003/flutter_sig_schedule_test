@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sig_schedule_test/screens/schedule_list.dart';
 
 class ScheduleMain extends StatefulWidget {
   const ScheduleMain({Key? key}) : super(key: key);
@@ -22,9 +23,7 @@ class _ScheduleMainState extends State<ScheduleMain> {
       appBar: AppBar(
         title: Text('SigSchedule'),
       ),
-      body: Center(
-        child: Text('Starting...'),
-      ),
+      body: ScheduleList(),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => {
