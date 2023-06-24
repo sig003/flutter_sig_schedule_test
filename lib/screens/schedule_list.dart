@@ -29,10 +29,27 @@ class _ScheduleListState extends State<ScheduleList> {
                   child: Container(
                     //height: 100,
                     child: Center(
-                      child: Column(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(contents[index]['title']),
-                          Text(contents[index]['time']),
+                          Container(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(contents[index]['title']),
+                                SizedBox(height: 10,),
+                                Text(contents[index]['time']),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(right: 10),
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ),
+                          )
                         ],
                       ),
                     )
