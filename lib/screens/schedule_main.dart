@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sig_schedule_test/screens/schedule_list.dart';
+import 'package:sig_schedule_test/screens/add_job_dialog.dart';
 
 class ScheduleMain extends StatefulWidget {
   const ScheduleMain({Key? key}) : super(key: key);
@@ -27,7 +28,9 @@ class _ScheduleMainState extends State<ScheduleMain> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => {
-          print('click')
+          showDialog(context: context, builder: (context) {
+            return AddJobDialog();
+          }),
         },
       ),
       bottomNavigationBar: BottomNavigationBar(

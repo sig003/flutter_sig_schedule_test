@@ -9,9 +9,9 @@ class ScheduleList extends StatefulWidget {
 
 class _ScheduleListState extends State<ScheduleList> {
   final List<Map<String, dynamic>> contents = [
-    {'title': '약먹기', 'time': '2023-06-10 12:00:00'},
-    {'title': '쇼핑', 'time': '2023-06-10 12:00:00'},
-    {'title': '티비', 'time': '2023-06-10 12:00:00'}
+    {'title': '약먹기', 'date': '2023-06-10 12:00:00'},
+    {'title': '쇼핑', 'date': '2023-06-10 12:00:00'},
+    {'title': '티비', 'date': '2023-06-10 12:00:00'}
   ];
 
   @override
@@ -39,7 +39,7 @@ class _ScheduleListState extends State<ScheduleList> {
                               children: [
                                 Text(contents[index]['title']),
                                 SizedBox(height: 10,),
-                                Text(contents[index]['time']),
+                                Text(contents[index]['date']),
                               ],
                             ),
                           ),
