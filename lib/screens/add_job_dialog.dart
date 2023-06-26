@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/cupertino.dart';
 
 class AddJobDialog extends StatefulWidget {
   const AddJobDialog({Key? key}) : super(key: key);
@@ -24,6 +25,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
     return AlertDialog(
       title: const Text('Add Job'),
       content: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           TextFormField(
             decoration: const InputDecoration(
