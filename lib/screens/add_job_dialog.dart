@@ -12,12 +12,35 @@ class AddJobDialog extends StatefulWidget {
 class _AddJobDialogState extends State<AddJobDialog> {
   TextEditingController dateInput = TextEditingController();
   TextEditingController timeInput = TextEditingController();
+  DateTime time = DateTime(2016, 5, 10, 22, 35);
 
   @override
   void initState() {
     dateInput.text = '';
     timeInput.text = '';
     super.initState();
+  }
+
+  void _showDialog(Widget child) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => Container(
+        height: 216,
+        padding: const EdgeInsets.only(top: 6.0),
+        // The Bottom margin is provided to align the popup above the system
+        // navigation bar.
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        // Provide a background color for the popup.
+        color: CupertinoColors.systemBackground.resolveFrom(context),
+        // Use a SafeArea widget to avoid system overlaps.
+        child: SafeArea(
+          top: false,
+          child: child,
+        ),
+      ),
+    );
   }
 
   @override
@@ -70,7 +93,21 @@ class _AddJobDialogState extends State<AddJobDialog> {
             ),
             readOnly: true,
             onTap: () async {
-
+              _showDialog(
+                CupertinoDatePicker(
+                  initialDateTime: DateTime.now(),
+                  mode: CupertinoDatePickerMode.time,
+                  use24hFormat: true,
+                  // This is called when the user changes the time.
+                  onDateTimeChanged: (DateTime newTime) {
+                    setState(() {
+                      print(newTime);
+                      time = newTime;
+                    }
+                    );
+                  },
+                ),
+              );
             }
           ),
         ],
