@@ -103,6 +103,9 @@ class _AddJobDialogState extends State<AddJobDialog> {
                     setState(() {
                       print(newTime);
                       time = newTime;
+                      String formattedTime = DateFormat('HH:mm').format(newTime);
+                      print(formattedTime);
+                      timeInput.text = formattedTime;
                     }
                     );
                   },
