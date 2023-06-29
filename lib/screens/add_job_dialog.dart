@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddJobDialog extends StatefulWidget {
   const AddJobDialog({Key? key}) : super(key: key);
@@ -12,7 +13,6 @@ class AddJobDialog extends StatefulWidget {
 class _AddJobDialogState extends State<AddJobDialog> {
   TextEditingController dateInput = TextEditingController();
   TextEditingController timeInput = TextEditingController();
-  DateTime time = DateTime(2016, 5, 10, 22, 35);
 
   @override
   void initState() {
@@ -41,6 +41,15 @@ class _AddJobDialogState extends State<AddJobDialog> {
         ),
       ),
     );
+  }
+
+  void _saveJob(String newValue) async {
+    if (newValue != '') {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('job', newValue);
+
+      print(prefs.getString('job'));
+    }
   }
 
   @override
@@ -101,8 +110,6 @@ class _AddJobDialogState extends State<AddJobDialog> {
                   // This is called when the user changes the time.
                   onDateTimeChanged: (DateTime newTime) {
                     setState(() {
-                      print(newTime);
-                      time = newTime;
                       String formattedTime = DateFormat('HH:mm').format(newTime);
                       print(formattedTime);
                       timeInput.text = formattedTime;
@@ -125,7 +132,8 @@ class _AddJobDialogState extends State<AddJobDialog> {
         TextButton(
           child: const Text('Add'),
           onPressed: () {
-            Navigator.of(context).pop();
+            //Navigator.of(context).pop();
+            _saveJob('aaa');
           },
         ),
       ],
