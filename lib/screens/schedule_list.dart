@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ScheduleList extends StatefulWidget {
   const ScheduleList({Key? key}) : super(key: key);
@@ -13,6 +14,12 @@ class _ScheduleListState extends State<ScheduleList> {
     {'title': '쇼핑', 'date': '2023-06-10 12:00:00'},
     {'title': '티비', 'date': '2023-06-10 12:00:00'}
   ];
+
+  Future<void> _getData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    final String? text = prefs.getString('text');
+  }
 
   @override
   Widget build(BuildContext context) {
