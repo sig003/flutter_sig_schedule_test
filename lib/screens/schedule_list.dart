@@ -15,12 +15,6 @@ class _ScheduleListState extends State<ScheduleList> {
     {'title': '티비', 'date': '2023-06-10 12:00:00'}
   ];
 
-  Future<void> _getData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    final String? text = prefs.getString('text');
-  }
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -44,9 +38,34 @@ class _ScheduleListState extends State<ScheduleList> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(contents[index]['title']),
-                                SizedBox(height: 10,),
-                                Text(contents[index]['date']),
+                                // Text(contents[index]['title']),
+                                // SizedBox(height: 10,),
+                                // Text(contents[index]['date']),
+                                FutureBuilder(
+                                    future: _getData(),
+                                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                      if (snapshot.hasData == false) {
+                                        return CircularProgressIndicator();
+                                      }
+                                      else if (snapshot.hasError) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'Error: ${snapshot.error}',
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                        );
+                                      }
+                                      else {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            snapshot.data.toString(),
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                        );
+                                      }
+                                    })
                               ],
                             ),
                           ),
@@ -67,5 +86,12 @@ class _ScheduleListState extends State<ScheduleList> {
           );
         }
     );
+  }
+
+  Future<String> _getData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? job = prefs.getString('job') ?? '';
+
+    return job;
   }
 }

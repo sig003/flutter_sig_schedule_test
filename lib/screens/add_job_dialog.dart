@@ -11,13 +11,11 @@ class AddJobDialog extends StatefulWidget {
 }
 
 class _AddJobDialogState extends State<AddJobDialog> {
-  TextEditingController textInput = TextEditingController();
   TextEditingController dateInput = TextEditingController();
   TextEditingController timeInput = TextEditingController();
 
   @override
   void initState() {
-    textInput.text = '';
     dateInput.text = '';
     timeInput.text = '';
     super.initState();
@@ -45,10 +43,10 @@ class _AddJobDialogState extends State<AddJobDialog> {
     );
   }
 
-  void _saveJob(String textValue, String dateValue, String timeValue) async {
-    if (textValue != '' &&  dateValue != '' && timeValue != '') {
+  void _saveJob(String newValue) async {
+    if (newValue != '') {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('text', textValue);
+      prefs.setString('job', dateInput.text);
     }
   }
 
@@ -60,7 +58,6 @@ class _AddJobDialogState extends State<AddJobDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextFormField(
-            controller: textInput,
             decoration: const InputDecoration(
               border: UnderlineInputBorder(),
               labelText: 'Job',
@@ -133,7 +130,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
         TextButton(
           child: const Text('Add'),
           onPressed: () {
-            _saveJob(textInput.text, dateInput.text, timeInput.text);
+            _saveJob('aa');
             Navigator.of(context).pop();
           },
         ),
