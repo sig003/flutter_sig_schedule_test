@@ -47,6 +47,9 @@ class _AddJobDialogState extends State<AddJobDialog> {
     if (newValue != '') {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('job', dateInput.text);
+
+      var data = ['aa','bb'];
+      prefs.setStringList('data', data);
     }
   }
 

@@ -91,7 +91,9 @@ class _ScheduleListState extends State<ScheduleList> {
   Future<String> _getData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? job = prefs.getString('job') ?? '';
+    setState(() {
 
+    });
     return job;
   }
 }
