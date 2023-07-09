@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class ScheduleList extends StatefulWidget {
   const ScheduleList({Key? key}) : super(key: key);
@@ -91,6 +92,8 @@ class _ScheduleListState extends State<ScheduleList> {
   Future<String> _getData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? job = prefs.getString('job') ?? '';
+    String? resultObjectArray = prefs.getString('data') ?? '';
+
     setState(() {
 
     });

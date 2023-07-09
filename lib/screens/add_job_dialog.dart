@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
@@ -48,8 +50,9 @@ class _AddJobDialogState extends State<AddJobDialog> {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('job', dateInput.text);
 
-      var data = ['aa','bb'];
-      prefs.setStringList('data', data);
+      var data = [{'aa','bb'}];
+
+      prefs.setString('data', json.encode(data));
     }
   }
 
