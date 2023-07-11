@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:uuid/uuid.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,14 +13,17 @@ class AddJobDialog extends StatefulWidget {
 }
 
 class _AddJobDialogState extends State<AddJobDialog> {
+  TextEditingController jobInput = TextEditingController();
   TextEditingController dateInput = TextEditingController();
   TextEditingController timeInput = TextEditingController();
+  List<String> ListArray = [];
 
   @override
   void initState() {
+    super.initState();
+    jobInput.text = '';
     dateInput.text = '';
     timeInput.text = '';
-    super.initState();
   }
 
   void _showDialog(Widget child) {
@@ -48,11 +51,34 @@ class _AddJobDialogState extends State<AddJobDialog> {
   void _saveJob(String newValue) async {
     if (newValue != '') {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('job', dateInput.text);
+      //prefs.setString('job', dateInput.text);
 
-      var data = [{'aa','bb'}];
 
-      prefs.setString('data', json.encode(data));
+
+      var uuid = Uuid();
+      var timeBasedId = uuid.v1();
+
+      Map<String, dynamic> map = {
+        'id': timeBasedId,
+        'job': jobInput.text,
+        'date': dateInput.text,
+        'time': timeInput.text
+      };
+
+      String rawJson = jsonEncode(map);
+
+      List<String> beforeArray = prefs.getStringList('data') ?? [];
+
+      for(int i = 0; i < beforeArray.length; i += 1) {
+        ListArray.add(beforeArray[i]);
+      }
+
+
+      ListArray.add(rawJson);
+      //strings.add(rawJson);
+
+
+      prefs.setStringList('data', ListArray);
     }
   }
 
@@ -64,6 +90,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextFormField(
+            controller: jobInput,
             decoration: const InputDecoration(
               border: UnderlineInputBorder(),
               labelText: 'Job',

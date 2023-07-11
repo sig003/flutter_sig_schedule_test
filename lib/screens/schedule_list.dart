@@ -92,11 +92,16 @@ class _ScheduleListState extends State<ScheduleList> {
   Future<String> _getData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? job = prefs.getString('job') ?? '';
-    String? resultObjectArray = prefs.getString('data') ?? '';
+    List<String> rawJson = prefs.getStringList('data') ?? [];
+    print(rawJson);
+    // final arrayValue = rawJson[1];
+    // Map<String, dynamic> map = jsonDecode(arrayValue);
+    // print(map);
 
-    setState(() {
 
-    });
+    // setState(() {
+    //
+    // });
     return job;
   }
 }
