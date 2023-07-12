@@ -16,11 +16,20 @@ class _ScheduleListState extends State<ScheduleList> {
     {'title': '티비', 'date': '2023-06-10 12:00:00'}
   ];
 
+  var count = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
         padding: const EdgeInsets.all(18),
-        itemCount: contents.length,
+        itemCount: count,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             children: [
@@ -93,15 +102,17 @@ class _ScheduleListState extends State<ScheduleList> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? job = prefs.getString('job') ?? '';
     List<String> rawJson = prefs.getStringList('data') ?? [];
-    print(rawJson);
+
+
     // final arrayValue = rawJson[1];
     // Map<String, dynamic> map = jsonDecode(arrayValue);
     // print(map);
 
 
-    // setState(() {
-    //
-    // });
+    setState(() {
+      count = rawJson.length;
+
+     });
     return job;
   }
 }
