@@ -25,82 +25,96 @@ class _ScheduleListState extends State<ScheduleList> {
     _getData();
   }
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return ListView.builder(
+  //       padding: const EdgeInsets.all(18),
+  //       itemCount: count,
+  //       itemBuilder: (BuildContext context, int index) {
+  //         return Column(
+  //           children: [
+  //             SizedBox(height: 10,),
+  //             Container(
+  //               height: 80,
+  //               child: Card(
+  //                 child: Container(
+  //                   //height: 100,
+  //                   child: Center(
+  //                     child: Row(
+  //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                       children: [
+  //                         Container(
+  //                           padding: EdgeInsets.only(left: 10),
+  //                           child: Column(
+  //                             mainAxisAlignment: MainAxisAlignment.center,
+  //                             children: [
+  //                               // Text(contents[index]['title']),
+  //                               // SizedBox(height: 10,),
+  //                               // Text(contents[index]['date']),
+  //                               FutureBuilder(
+  //                                   future: _getData(),
+  //                                   builder: (BuildContext context, AsyncSnapshot snapshot) {
+  //                                     if (snapshot.hasData == false) {
+  //                                       return CircularProgressIndicator();
+  //                                     }
+  //                                     else if (snapshot.hasError) {
+  //                                       return Padding(
+  //                                         padding: const EdgeInsets.all(8.0),
+  //                                         child: Text(
+  //                                           'Error: ${snapshot.error}',
+  //                                           style: TextStyle(fontSize: 15),
+  //                                         ),
+  //                                       );
+  //                                     }
+  //                                     else {
+  //                                       return Padding(
+  //                                         padding: const EdgeInsets.all(8.0),
+  //                                         child: Text(
+  //                                           snapshot.data.toString(),
+  //                                           style: TextStyle(fontSize: 15),
+  //                                         ),
+  //                                       );
+  //                                     }
+  //                                   })
+  //                             ],
+  //                           ),
+  //                         ),
+  //                         Container(
+  //                           padding: EdgeInsets.only(right: 10),
+  //                           child: Icon(
+  //                             Icons.delete,
+  //                             color: Colors.red,
+  //                           ),
+  //                         )
+  //                       ],
+  //                     ),
+  //                   )
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         );
+  //       }
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        padding: const EdgeInsets.all(18),
-        itemCount: count,
-        itemBuilder: (BuildContext context, int index) {
-          return Column(
-            children: [
-              SizedBox(height: 10,),
-              Container(
-                height: 80,
-                child: Card(
-                  child: Container(
-                    //height: 100,
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // Text(contents[index]['title']),
-                                // SizedBox(height: 10,),
-                                // Text(contents[index]['date']),
-                                FutureBuilder(
-                                    future: _getData(),
-                                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                                      if (snapshot.hasData == false) {
-                                        return CircularProgressIndicator();
-                                      }
-                                      else if (snapshot.hasError) {
-                                        return Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Error: ${snapshot.error}',
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                        );
-                                      }
-                                      else {
-                                        return Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            snapshot.data.toString(),
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                        );
-                                      }
-                                    })
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(right: 10),
-                            child: Icon(
-                              Icons.delete,
-                              color: Colors.red,
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ),
-                ),
-              ),
-            ],
-          );
-        }
-    );
+    return FutureBuilder(
+      future: _getData(),
+      builder: (context, snapshot) => ListView.builder(
+        itemCount: snapshot.data?.length,
+        itemBuilder: (BuildContext context, int index) =>
+                Text(snapshot.data?[0])
+        ),
+      );
   }
+
 
   Future<List<String>> _getData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     //String? job = prefs.getString('job') ?? '';
+
     List<String> rawJson = prefs.getStringList('data') ?? [];
     // final arrayValue = rawJson[1];
     // Map<String, dynamic> map = jsonDecode(arrayValue);
