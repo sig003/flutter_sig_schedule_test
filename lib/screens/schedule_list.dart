@@ -10,20 +10,20 @@ class ScheduleList extends StatefulWidget {
 }
 
 class _ScheduleListState extends State<ScheduleList> {
-  final List<Map<String, dynamic>> contents = [
-    {'title': '약먹기', 'date': '2023-06-10 12:00:00'},
-    {'title': '쇼핑', 'date': '2023-06-10 12:00:00'},
-    {'title': '티비', 'date': '2023-06-10 12:00:00'}
-  ];
-
-  var count = 0;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _getData();
-  }
+  // final List<Map<String, dynamic>> contents = [
+  //   {'title': '약먹기', 'date': '2023-06-10 12:00:00'},
+  //   {'title': '쇼핑', 'date': '2023-06-10 12:00:00'},
+  //   {'title': '티비', 'date': '2023-06-10 12:00:00'}
+  // ];
+  //
+  // var count = 0;
+  //
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   _getData();
+  // }
 
   // @override
   // Widget build(BuildContext context) {
@@ -104,8 +104,47 @@ class _ScheduleListState extends State<ScheduleList> {
       future: _getData(),
       builder: (context, snapshot) => ListView.builder(
         itemCount: snapshot.data?.length,
-        itemBuilder: (BuildContext context, int index) =>
-                Text(snapshot.data?[0])
+        itemBuilder: (BuildContext context, int index) {
+          return Column(
+              children: [
+                SizedBox(height: 10,),
+                Container(
+                  height: 80,
+                  child: Card(
+                    child: Container(
+                        child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(snapshot.data?[index] ?? ''),
+                                        ),
+
+                                      ],
+                                    )
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(right: 10),
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ],
+                            )
+                        )
+                    ),
+                  ),
+                ),
+              ]
+          );
+        }
         ),
       );
   }
@@ -118,11 +157,19 @@ class _ScheduleListState extends State<ScheduleList> {
     List<String> rawJson = prefs.getStringList('data') ?? [];
     // final arrayValue = rawJson[1];
     // Map<String, dynamic> map = jsonDecode(arrayValue);
-    // print(map);
+    //List<Map<String, dynamic>> aa = jsonDecode(rawJson);
+
     // setState(() {
     //   count = rawJson.length;
     //
     //  });
+
+    for (int i = 0; i < rawJson.length; i++) {
+      //print(jsonDecode(rawJson[i])['date']);
+      //arrayList[i] = jsonDecode(rawJson[i]);
+      print(jsonDecode(rawJson[i]));
+    }
+
     return rawJson;
   }
 }
