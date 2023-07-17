@@ -9,6 +9,24 @@ class ScheduleList extends StatefulWidget {
   State<ScheduleList> createState() => _ScheduleListState();
 }
 
+class Job {
+  String? id;
+  String? job;
+  String? date;
+  String? time;
+
+  Job({this.id, this.job, this.date, this.time});
+
+  factory Job.fromJson(Map<String, dynamic> parsedJson) {
+    return Job(
+      id: parsedJson['id'],
+      job: parsedJson['job'],
+      date: parsedJson['date'],
+      time: parsedJson['time'],
+    );
+  }
+}
+
 class _ScheduleListState extends State<ScheduleList> {
   // final List<Map<String, dynamic>> contents = [
   //   {'title': '약먹기', 'date': '2023-06-10 12:00:00'},
@@ -125,7 +143,6 @@ class _ScheduleListState extends State<ScheduleList> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(snapshot.data?[index] ?? ''),
                                         ),
-
                                       ],
                                     )
                                 ),
@@ -150,26 +167,32 @@ class _ScheduleListState extends State<ScheduleList> {
   }
 
 
-  Future<List<String>> _getData() async {
+  // Future<List<String>> _getData() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   //prefs.clear();
+  //
+  //   List<String> rawJson = prefs.getStringList('data') ?? [];
+  //   // final arrayValue = rawJson[1];
+  //   // Map<String, dynamic> map = jsonDecode(arrayValue);
+  //   //List<Map<String, dynamic>> aa = jsonDecode(rawJson);
+  //
+  //   // setState(() {
+  //   //   count = rawJson.length;
+  //   //
+  //   //  });
+  //
+  //
+  //   for (int i = 0; i < rawJson.length; i++) {
+  //     //print(jsonDecode(rawJson[i])['date']);
+  //     //arrayList[i] = jsonDecode(rawJson[i]);
+  //     print(jsonDecode(rawJson[i]));
+  //   }
+  //
+  //   return rawJson;
+  // }
+
+  Future<Job> _getData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    //String? job = prefs.getString('job') ?? '';
-
-    List<String> rawJson = prefs.getStringList('data') ?? [];
-    // final arrayValue = rawJson[1];
-    // Map<String, dynamic> map = jsonDecode(arrayValue);
-    //List<Map<String, dynamic>> aa = jsonDecode(rawJson);
-
-    // setState(() {
-    //   count = rawJson.length;
-    //
-    //  });
-
-    for (int i = 0; i < rawJson.length; i++) {
-      //print(jsonDecode(rawJson[i])['date']);
-      //arrayList[i] = jsonDecode(rawJson[i]);
-      print(jsonDecode(rawJson[i]));
-    }
-
-    return rawJson;
+    String jsonString = prefs.getStringList('data');
   }
 }
