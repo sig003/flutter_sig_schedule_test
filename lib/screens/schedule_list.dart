@@ -141,7 +141,7 @@ class _ScheduleListState extends State<ScheduleList> {
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text(snapshot.data?[index] ?? ''),
+                                          child: Text(snapshot.data?[index]['job'] ?? ''),
                                         ),
                                       ],
                                     )
@@ -166,33 +166,22 @@ class _ScheduleListState extends State<ScheduleList> {
       );
   }
 
-
-  // Future<List<String>> _getData() async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   //prefs.clear();
-  //
-  //   List<String> rawJson = prefs.getStringList('data') ?? [];
-  //   // final arrayValue = rawJson[1];
-  //   // Map<String, dynamic> map = jsonDecode(arrayValue);
-  //   //List<Map<String, dynamic>> aa = jsonDecode(rawJson);
-  //
-  //   // setState(() {
-  //   //   count = rawJson.length;
-  //   //
-  //   //  });
-  //
-  //
-  //   for (int i = 0; i < rawJson.length; i++) {
-  //     //print(jsonDecode(rawJson[i])['date']);
-  //     //arrayList[i] = jsonDecode(rawJson[i]);
-  //     print(jsonDecode(rawJson[i]));
-  //   }
-  //
-  //   return rawJson;
-  // }
-
-  Future<Job> _getData() async {
+  Future<List<Map<String, String>>> _getData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String jsonString = prefs.getStringList('data');
+    //prefs.clear();
+    var bb = prefs.getStringList('data') ?? [];
+    print(bb);
+
+    //List<Object> rawJson = prefs.getStringList('data') ?? [];
+    // setState(() {
+    //   count = rawJson.length;
+    //
+    //  });
+
+    List<Map<String, String>> aa = [{"id":"c6b63d40-2289-11ee-a39b-9b519e963c49","job":"abcd","date":"2023-07-15","time":"06:03"}];
+    print(aa);
+
+    return aa;
   }
+
 }
