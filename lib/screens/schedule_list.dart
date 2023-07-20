@@ -10,24 +10,23 @@ class ScheduleList extends StatefulWidget {
 }
 
 class Job {
-  String? id;
-  String? job;
-  String? date;
-  String? time;
+  String id;
+  String job;
+  String date;
+  String time;
 
-  Job({this.id, this.job, this.date, this.time});
+  Job(this.id, this.job, this.date, this.time);
 
-  factory Job.fromJson(Map<String, dynamic> parsedJson) {
-    return Job(
-      id: parsedJson['id'],
-      job: parsedJson['job'],
-      date: parsedJson['date'],
-      time: parsedJson['time'],
-    );
-  }
+  Map toJson() => {
+    'id': id,
+    'job': job,
+    'date': date,
+    'time': time,
+  };
 }
 
 class _ScheduleListState extends State<ScheduleList> {
+  var ListArray = [];
   // final List<Map<String, dynamic>> contents = [
   //   {'title': '약먹기', 'date': '2023-06-10 12:00:00'},
   //   {'title': '쇼핑', 'date': '2023-06-10 12:00:00'},
@@ -166,22 +165,22 @@ class _ScheduleListState extends State<ScheduleList> {
       );
   }
 
-  Future<List<Map<String, String>>> _getData() async {
+  Future<List<dynamic>> _getData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     //prefs.clear();
-    var bb = prefs.getStringList('data') ?? [];
-    print(bb);
-
-    //List<Object> rawJson = prefs.getStringList('data') ?? [];
     // setState(() {
-    //   count = rawJson.length;
     //
-    //  });
+    // });
+    List<dynamic> bb = prefs.getStringList('data') ?? [];
 
-    List<Map<String, String>> aa = [{"id":"c6b63d40-2289-11ee-a39b-9b519e963c49","job":"abcd","date":"2023-07-15","time":"06:03"}];
-    print(aa);
+    for (int i = 0; i < bb.length; i++) {
+      ListArray.add(jsonDecode(bb[i]));
+    }
 
-    return aa;
+    // List<Map<String, String>> aa = [{"id":"c6b63d40-2289-11ee-a39b-9b519e963c49","job":"abcd","date":"2023-07-15","time":"06:03"}];
+    // print(aa);
+
+    print(ListArray);
+    return ListArray;
   }
-
 }

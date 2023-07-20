@@ -51,9 +51,6 @@ class _AddJobDialogState extends State<AddJobDialog> {
   void _saveJob(String newValue) async {
     if (newValue != '') {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      //prefs.setString('job', dateInput.text);
-
-
 
       var uuid = Uuid();
       var timeBasedId = uuid.v1();
@@ -69,14 +66,14 @@ class _AddJobDialogState extends State<AddJobDialog> {
 
       List<String> beforeArray = prefs.getStringList('data') ?? [];
 
-      for(int i = 0; i < beforeArray.length; i += 1) {
-        ListArray.add(beforeArray[i]);
+      ListArray = [];
+      if (beforeArray.length > 0) {
+        for (int i = 0; i < beforeArray.length; i += 1) {
+          ListArray.add(beforeArray[i]);
+        }
       }
 
-
       ListArray.add(rawJson);
-      //strings.add(rawJson);
-
 
       prefs.setStringList('data', ListArray);
     }
