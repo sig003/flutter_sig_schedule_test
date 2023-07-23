@@ -26,7 +26,7 @@ class Job {
 }
 
 class _ScheduleListState extends State<ScheduleList> {
-  var ListArray = [];
+  //var ListArray = [];
 
   @override
   Widget build(BuildContext context) {
@@ -99,11 +99,11 @@ class _ScheduleListState extends State<ScheduleList> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     List<dynamic> jsonData = prefs.getStringList('data') ?? [];
 
-    ListArray = [];
+    var ListArray = [];
     for (int i = 0; i < jsonData.length; i++) {
       ListArray.add(jsonDecode(jsonData[i]));
     }
-
+    //ListArray.reversed;
     // setState(() {
     //
     // });
