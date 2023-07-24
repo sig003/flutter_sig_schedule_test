@@ -106,9 +106,10 @@ class _ScheduleListState extends State<ScheduleList> {
       ListArray.add(jsonDecode(jsonData[i]));
     }
 
+    List<dynamic> reverserdListArray = List.from(ListArray.reversed);
     // setState(() {
     //
     // });
-    return ListArray;
+    return reverserdListArray;
   }
 }
