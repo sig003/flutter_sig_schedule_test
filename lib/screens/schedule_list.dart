@@ -35,6 +35,8 @@ class _ScheduleListState extends State<ScheduleList> {
       builder: (context, snapshot) => ListView.builder(
         itemCount: snapshot.data?.length,
         itemBuilder: (BuildContext context, int index) {
+          List<dynamic>? resultData = snapshot.data;
+
           return Column(
               children: [
                 SizedBox(height: 10,),
@@ -56,17 +58,17 @@ class _ScheduleListState extends State<ScheduleList> {
                                           children: [
                                             Padding(
                                               padding: const EdgeInsets.fromLTRB(8, 5, 0, 5),
-                                              child: Text(snapshot.data?[index]['job'], style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                                              child: Text(resultData?[index]['job'] ?? 'None', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
                                             ),
                                             Row(
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child: Text(snapshot.data?[index]['date']),
+                                                  child: Text(resultData?[index]['date'] ?? 'None'),
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.all(8.0),
-                                                  child: Text(snapshot.data?[index]['time']),
+                                                  child: Text(resultData?[index]['time'] ?? 'None'),
                                                 ),
                                               ],
                                             ),
@@ -103,7 +105,7 @@ class _ScheduleListState extends State<ScheduleList> {
     for (int i = 0; i < jsonData.length; i++) {
       ListArray.add(jsonDecode(jsonData[i]));
     }
-    //ListArray.reversed;
+
     // setState(() {
     //
     // });
