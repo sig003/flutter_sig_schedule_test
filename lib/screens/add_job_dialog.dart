@@ -59,7 +59,8 @@ class _AddJobDialogState extends State<AddJobDialog> {
         'id': timeBasedId,
         'job': jobInput.text,
         'date': dateInput.text,
-        'time': timeInput.text
+        'time': timeInput.text,
+        'state': 'normal'
       };
 
       String rawJson = jsonEncode(map);
