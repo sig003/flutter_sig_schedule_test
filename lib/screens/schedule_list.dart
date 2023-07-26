@@ -33,7 +33,8 @@ class _ScheduleListState extends State<ScheduleList> {
     return FutureBuilder(
       future: _getData(),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        var aa = snapshot.data?.length ?? 0;
+        if (aa > 0) {
           return Text('Has Data');
         }
         return Text('No data');
