@@ -9,25 +9,7 @@ class ScheduleList extends StatefulWidget {
   State<ScheduleList> createState() => _ScheduleListState();
 }
 
-class Job {
-  String id;
-  String job;
-  String date;
-  String time;
-
-  Job(this.id, this.job, this.date, this.time);
-
-  Map toJson() => {
-    'id': id,
-    'job': job,
-    'date': date,
-    'time': time,
-  };
-}
-
 class _ScheduleListState extends State<ScheduleList> {
-  //var ListArray = [];
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -127,8 +109,9 @@ class _ScheduleListState extends State<ScheduleList> {
     List<dynamic> jsonData = prefs.getStringList('data') ?? [];
 
     var ListArray = [];
+
     for (int i = 0; i < jsonData.length; i++) {
-      if (jsonDecode(jsonData[i]['state']) == 'normal') {
+      if (jsonDecode(jsonData[i])['state'] == 'normal') {
         ListArray.add(jsonDecode(jsonData[i]));
       }
     }
