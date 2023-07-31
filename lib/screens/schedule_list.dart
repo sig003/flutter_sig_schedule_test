@@ -88,7 +88,8 @@ class _ScheduleListState extends State<ScheduleList> {
                                             icon: const Icon(Icons.delete),
                                             color: Colors.red,
                                             onPressed: () {
-                                              _delData('384a5b30-2ea6-11ee-8dc6-8d2448c44027');
+                                              _delData(resultData?[index]['id'] ??
+                                                  'None');
                                             },
                                           ),
                                         ),
@@ -110,7 +111,7 @@ class _ScheduleListState extends State<ScheduleList> {
   Future<List<dynamic>> _getData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     List<dynamic> jsonData = prefs.getStringList('data') ?? [];
-    print(jsonData);
+
     var ListArray = [];
 
     for (int i = 0; i < jsonData.length; i++) {
@@ -126,14 +127,15 @@ class _ScheduleListState extends State<ScheduleList> {
     return reverserdListArray;
   }
 
-  _delData(id) async {
+   Future<void>_delData(id) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     List<dynamic> jsonData = prefs.getStringList('data') ?? [];
 
     for (int i = 0; i < jsonData.length; i++) {
       if (jsonDecode(jsonData[i])['id'] == id) {
         //print(jsonDecode(jsonData[i])['id']);
-        jsonDecode(jsonData[i]).setStringList('state', 'delete');
+
+        await jsonData[i].setString('state', jsonEncode('delete'));
       }
     }
   }
