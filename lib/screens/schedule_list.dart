@@ -124,19 +124,42 @@ class _ScheduleListState extends State<ScheduleList> {
     // setState(() {
     //
     // });
+    print(reverserdListArray );
     return reverserdListArray;
   }
 
-   Future<void>_delData(id) async {
+   void _delData(id) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     List<dynamic> jsonData = prefs.getStringList('data') ?? [];
 
-    for (int i = 0; i < jsonData.length; i++) {
-      if (jsonDecode(jsonData[i])['id'] == id) {
-        //print(jsonDecode(jsonData[i])['id']);
+    List<String> ListArray = [];
 
-        await jsonData[i].setString('state', jsonEncode('delete'));
+    if (jsonData.length > 0) {
+      for (int i = 0; i < jsonData.length; i++) {
+        if (jsonDecode(jsonData[i])['id'] == id) {
+          //print(jsonDecode(jsonData[i])['id']);
+          // ListArray.add(jsonEncode({
+          //   "id": jsonDecode(jsonData[i])['id'],
+          //   "job": jsonDecode(jsonData[i])['job'],
+          //   "date": jsonDecode(jsonData[i])['date'],
+          //   "time": jsonDecode(jsonData[i])['time'],
+          //   "state": "delete"}));
+          Map<String, dynamic> map = {
+            'id': jsonDecode(jsonData[i])['id'],
+            'job': jsonDecode(jsonData[i])['job'],
+            'date': jsonDecode(jsonData[i])['date'],
+            'time': jsonDecode(jsonData[i])['time'],
+            'state': 'delete'
+          };
+          String rawJson = jsonEncode(map);
+          print(11);
+          ListArray.add(rawJson);
+        } else {
+          print(22);
+          ListArray.add(jsonData[i]);
+        }
       }
+      prefs.setStringList('data', ListArray);
     }
   }
 }
