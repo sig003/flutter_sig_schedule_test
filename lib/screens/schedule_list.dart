@@ -124,7 +124,6 @@ class _ScheduleListState extends State<ScheduleList> {
     // setState(() {
     //
     // });
-    print(reverserdListArray );
     return reverserdListArray;
   }
 
@@ -137,13 +136,6 @@ class _ScheduleListState extends State<ScheduleList> {
     if (jsonData.length > 0) {
       for (int i = 0; i < jsonData.length; i++) {
         if (jsonDecode(jsonData[i])['id'] == id) {
-          //print(jsonDecode(jsonData[i])['id']);
-          // ListArray.add(jsonEncode({
-          //   "id": jsonDecode(jsonData[i])['id'],
-          //   "job": jsonDecode(jsonData[i])['job'],
-          //   "date": jsonDecode(jsonData[i])['date'],
-          //   "time": jsonDecode(jsonData[i])['time'],
-          //   "state": "delete"}));
           Map<String, dynamic> map = {
             'id': jsonDecode(jsonData[i])['id'],
             'job': jsonDecode(jsonData[i])['job'],
@@ -152,10 +144,8 @@ class _ScheduleListState extends State<ScheduleList> {
             'state': 'delete'
           };
           String rawJson = jsonEncode(map);
-          print(11);
           ListArray.add(rawJson);
         } else {
-          print(22);
           ListArray.add(jsonData[i]);
         }
       }

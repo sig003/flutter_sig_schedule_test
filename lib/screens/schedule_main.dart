@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sig_schedule_test/screens/schedule_list.dart';
 import 'package:sig_schedule_test/screens/add_job_dialog.dart';
+import 'package:sig_schedule_test/screens/bottom_navigation_bar.dart';
 
 class ScheduleMain extends StatefulWidget {
   const ScheduleMain({Key? key}) : super(key: key);
@@ -10,14 +11,6 @@ class ScheduleMain extends StatefulWidget {
 }
 
 class _ScheduleMainState extends State<ScheduleMain> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,20 +26,7 @@ class _ScheduleMainState extends State<ScheduleMain> {
           }),
         },
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: 'Favorite',
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.delete),
-              label: 'Delete'
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-      ),
+      bottomNavigationBar: CustomBottomNavagationBar(),
     );
   }
 }
