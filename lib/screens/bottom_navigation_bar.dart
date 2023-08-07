@@ -21,25 +21,34 @@ class _CustomBottomNavagationBarState extends State<CustomBottomNavagationBar> {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorite',
-        ),
-        BottomNavigationBarItem(
-            label: 'Delete',
-            icon: badges.Badge(
-              badgeContent: Text(
-                _getDeleteBadgesCount(),
-                style: TextStyle(color: Colors.white),
+    return FutureBuilder(
+        future: _getDeleteBadgesCount(),
+        builder: (context, snapshot) {
+          return BottomNavigationBar(
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.favorite),
+                  label: 'Favorite',
               ),
-              child: Icon(Icons.delete),
-            ),
-        ),
-      ],
-      currentIndex: _selectedIndex,
-      onTap: _onItemTapped,
+              BottomNavigationBarItem(
+                  label: 'Delete',
+                  icon: badges.Badge(
+                    badgeContent: Text(
+                      snapshot.data.toString(),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 9,
+                          fontWeight: FontWeight.w900
+                      ),
+                    ),
+                    child: Icon(Icons.delete),
+                  ),
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+          );
+      }
     );
   }
 
