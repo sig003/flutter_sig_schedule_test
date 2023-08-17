@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import 'package:flutter/services.dart';
 
 class ScheduleList extends StatefulWidget {
   const ScheduleList({Key? key}) : super(key: key);
@@ -171,7 +170,6 @@ class _ScheduleListState extends State<ScheduleList> {
         }
       }
       prefs.setStringList('data', ListArray);
-      HapticFeedback.heavyImpact();
       setState(() {
 
       });
