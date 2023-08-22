@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sig_schedule_test/screens/schedule_main.dart';
+import 'package:alarm/alarm.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Alarm.init(showDebugLogs: true);
   runApp(SigSchedule());
 }
 

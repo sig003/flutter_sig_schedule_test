@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:alarm/alarm.dart';
 
 class AddJobDialog extends StatefulWidget {
-  const AddJobDialog({Key? key}) : super(key: key);
+  final AlarmSettings? alarmSettings;
+  const AddJobDialog({Key? key, this.alarmSettings}) : super(key: key);
 
   @override
   State<AddJobDialog> createState() => _AddJobDialogState();
@@ -18,14 +20,84 @@ class _AddJobDialogState extends State<AddJobDialog> {
   TextEditingController timeInput = TextEditingController();
   List<String> ListArray = [];
 
+  bool loading = false;
+  late bool creating;
+  late TimeOfDay selectedTime;
+  late bool loopAudio;
+  late bool vibrate;
+  late bool volumeMax;
+  late bool showNotification;
+  late String assetAudio;
+
   @override
   void initState() {
     super.initState();
     jobInput.text = '';
     dateInput.text = '';
     timeInput.text = '';
+    creating = widget.alarmSettings == null;
+    if (creating) {
+      final dt = DateTime.now().add(const Duration(minutes: 1));
+      selectedTime = TimeOfDay(hour: dt.hour, minute: dt.minute);
+      loopAudio = true;
+      vibrate = true;
+      volumeMax = true;
+      showNotification = true;
+      assetAudio = 'assets/marimba.mp3';
+    } else {
+      selectedTime = TimeOfDay(
+        hour: widget.alarmSettings!.dateTime.hour,
+        minute: widget.alarmSettings!.dateTime.minute,
+      );
+      loopAudio = widget.alarmSettings!.loopAudio;
+      vibrate = widget.alarmSettings!.vibrate;
+      volumeMax = widget.alarmSettings!.volumeMax;
+      showNotification = widget.alarmSettings!.notificationTitle != null &&
+          widget.alarmSettings!.notificationTitle!.isNotEmpty &&
+          widget.alarmSettings!.notificationBody != null &&
+          widget.alarmSettings!.notificationBody!.isNotEmpty;
+      assetAudio = widget.alarmSettings!.assetAudioPath;
+    }
   }
+  AlarmSettings buildAlarmSettings() {
+    final now = DateTime.now();
+    final id = creating
+        ? DateTime.now().millisecondsSinceEpoch % 100000
+        : widget.alarmSettings!.id;
 
+    DateTime dateTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      now.hour,
+      now.minute,
+      0,
+      0,
+    );
+    if (dateTime.isBefore(DateTime.now())) {
+      dateTime = dateTime.add(const Duration(days: 1));
+    }
+
+    final alarmSettings = AlarmSettings(
+      id: id,
+      dateTime: dateTime,
+      loopAudio: true,
+      vibrate: true,
+      volumeMax: true,
+      notificationTitle: showNotification ? 'Alarm example' : null,
+      notificationBody: showNotification ? 'Your alarm ($id) is ringing' : null,
+      assetAudioPath: 'assets/marimba.mp3',
+      stopOnNotificationOpen: false,
+    );
+    return alarmSettings;
+  }
+  void saveAlarm() {
+    setState(() => loading = true);
+    Alarm.set(alarmSettings: buildAlarmSettings()).then((res) {
+      if (res) Navigator.pop(context, true);
+    });
+    setState(() => loading = false);
+  }
   void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(
       context: context,
@@ -161,6 +233,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
         TextButton(
           child: const Text('Add'),
           onPressed: () {
+            saveAlarm();
             _saveJob('aa');
             Navigator.of(context).pop();
           },
