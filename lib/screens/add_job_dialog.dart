@@ -19,6 +19,8 @@ class _AddJobDialogState extends State<AddJobDialog> {
   TextEditingController dateInput = TextEditingController();
   TextEditingController timeInput = TextEditingController();
   List<String> ListArray = [];
+  DateTime _selectedDate = DateTime.now();
+  DateTime _selectedTime = DateTime.now();
 
   bool loading = false;
   late bool creating;
@@ -35,6 +37,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
     jobInput.text = '';
     dateInput.text = '';
     timeInput.text = '';
+
     creating = widget.alarmSettings == null;
     if (creating) {
       final dt = DateTime.now().add(const Duration(minutes: 1));
@@ -81,7 +84,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
     final alarmSettings = AlarmSettings(
       id: id,
       dateTime: dateTime,
-      loopAudio: true,
+      loopAudio: false,
       vibrate: true,
       volumeMax: true,
       notificationTitle: showNotification ? 'Alarm example' : null,
@@ -147,9 +150,18 @@ class _AddJobDialogState extends State<AddJobDialog> {
       }
 
       ListArray.add(rawJson);
-
       prefs.setStringList('data', ListArray);
     }
+  }
+
+  void _combinedDateTime() {
+    DateTime combinedDateTime = DateTime(
+      _selectedDate.year,
+      _selectedDate.month,
+      _selectedDate.day,
+      _selectedTime.hour,
+      _selectedTime.minute,
+    );
   }
 
   @override
@@ -188,6 +200,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
                 //you can implement different kind of Date Format here according to your requirement
 
                 setState(() {
+                  _selectedDate = pickedDate;
                   dateInput.text = formattedDate; //set output date to TextField value.
                 });
               } else {
@@ -211,6 +224,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
                   // This is called when the user changes the time.
                   onDateTimeChanged: (DateTime newTime) {
                     setState(() {
+                      _selectedTime = newTime;
                       String formattedTime = DateFormat('HH:mm').format(newTime);
                       print(formattedTime);
                       timeInput.text = formattedTime;
@@ -233,7 +247,13 @@ class _AddJobDialogState extends State<AddJobDialog> {
         TextButton(
           child: const Text('Add'),
           onPressed: () {
-            saveAlarm();
+            final alarmSettings = AlarmSettings(
+              id: 42,
+              dateTime: DateTime.now(),
+              assetAudioPath: 'assets/marimba.mp3',
+              volumeMax: false,
+            );
+            Alarm.set(alarmSettings: alarmSettings);
             _saveJob('aa');
             Navigator.of(context).pop();
           },
