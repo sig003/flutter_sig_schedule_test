@@ -154,7 +154,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
     }
   }
 
-  void _combinedDateTime() {
+  DateTime _combinedDateTime() {
     DateTime combinedDateTime = DateTime(
       _selectedDate.year,
       _selectedDate.month,
@@ -162,6 +162,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
       _selectedTime.hour,
       _selectedTime.minute,
     );
+    return combinedDateTime;
   }
 
   @override
@@ -247,11 +248,15 @@ class _AddJobDialogState extends State<AddJobDialog> {
         TextButton(
           child: const Text('Add'),
           onPressed: () {
+            var combinedTime = _combinedDateTime();
             final alarmSettings = AlarmSettings(
               id: 42,
-              dateTime: DateTime.now(),
+              dateTime: combinedTime,
               assetAudioPath: 'assets/marimba.mp3',
               volumeMax: false,
+              notificationTitle: showNotification ? 'Alarm example' : null,
+              notificationBody: showNotification ? 'Your alarm is ringing' : null,
+              stopOnNotificationOpen: true,
             );
             Alarm.set(alarmSettings: alarmSettings);
             _saveJob('aa');
