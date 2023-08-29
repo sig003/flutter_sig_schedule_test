@@ -271,18 +271,12 @@ class _AddJobDialogState extends State<AddJobDialog> {
         TextButton(
           child: const Text('Add'),
           onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              // If the form is valid, display a snackbar. In the real world,
-              // you'd often call a server or save the information in a database.
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Processing Data')),
-              );
-            } else {
+            if (!_formKey.currentState!.validate()) {
               return;
             }
             var combinedTime = _combinedDateTime();
             final alarmSettings = AlarmSettings(
-              id: 42,
+              id: DateTime.now().millisecondsSinceEpoch % 100000,
               dateTime: combinedTime,
               assetAudioPath: 'assets/marimba.mp3',
               volumeMax: false,
