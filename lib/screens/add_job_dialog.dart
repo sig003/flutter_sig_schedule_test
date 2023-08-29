@@ -15,6 +15,8 @@ class AddJobDialog extends StatefulWidget {
 }
 
 class _AddJobDialogState extends State<AddJobDialog> {
+  final _formKey = GlobalKey<FormState>();
+
   TextEditingController jobInput = TextEditingController();
   TextEditingController dateInput = TextEditingController();
   TextEditingController timeInput = TextEditingController();
@@ -169,74 +171,95 @@ class _AddJobDialogState extends State<AddJobDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Add Job'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextFormField(
-            controller: jobInput,
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Job',
+      content: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextFormField(
+              controller: jobInput,
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Job',
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
             ),
-          ),
-          TextFormField(
-            controller: dateInput,
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Date',
-            ),
-            readOnly: true,
-            onTap: () async {
-              DateTime? pickedDate = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(2101)
-              );
+            TextFormField(
+              controller: dateInput,
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Date',
+              ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              readOnly: true,
+              onTap: () async {
+                DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2101)
+                );
 
-              if (pickedDate != null ) {
-                print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
-                String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-                print(formattedDate); //formatted date output using intl package =>  2021-03-16
-                //you can implement different kind of Date Format here according to your requirement
+                if (pickedDate != null ) {
+                  print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
+                  String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                  print(formattedDate); //formatted date output using intl package =>  2021-03-16
+                  //you can implement different kind of Date Format here according to your requirement
 
-                setState(() {
-                  _selectedDate = pickedDate;
-                  dateInput.text = formattedDate; //set output date to TextField value.
-                });
-              } else {
-                print("Date is not selected");
+                  setState(() {
+                    _selectedDate = pickedDate;
+                    dateInput.text = formattedDate; //set output date to TextField value.
+                  });
+                } else {
+                  print("Date is not selected");
+                }
               }
-            }
-          ),
-          TextFormField(
-            controller: timeInput,
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Time',
             ),
-            readOnly: true,
-            onTap: () async {
-              _showDialog(
-                CupertinoDatePicker(
-                  initialDateTime: DateTime.now(),
-                  mode: CupertinoDatePickerMode.time,
-                  use24hFormat: true,
-                  // This is called when the user changes the time.
-                  onDateTimeChanged: (DateTime newTime) {
-                    setState(() {
-                      _selectedTime = newTime;
-                      String formattedTime = DateFormat('HH:mm').format(newTime);
-                      print(formattedTime);
-                      timeInput.text = formattedTime;
-                    }
-                    );
-                  },
-                ),
-              );
-            }
-          ),
-        ],
+            TextFormField(
+              controller: timeInput,
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Time',
+              ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              readOnly: true,
+              onTap: () async {
+                _showDialog(
+                  CupertinoDatePicker(
+                    initialDateTime: DateTime.now(),
+                    mode: CupertinoDatePickerMode.time,
+                    use24hFormat: true,
+                    // This is called when the user changes the time.
+                    onDateTimeChanged: (DateTime newTime) {
+                      setState(() {
+                        _selectedTime = newTime;
+                        String formattedTime = DateFormat('HH:mm').format(newTime);
+                        print(formattedTime);
+                        timeInput.text = formattedTime;
+                      }
+                      );
+                    },
+                  ),
+                );
+              }
+            ),
+          ],
+        ),
       ),
       actions: <Widget>[
         TextButton(
@@ -248,6 +271,15 @@ class _AddJobDialogState extends State<AddJobDialog> {
         TextButton(
           child: const Text('Add'),
           onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              // If the form is valid, display a snackbar. In the real world,
+              // you'd often call a server or save the information in a database.
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Processing Data')),
+              );
+            } else {
+              return;
+            }
             var combinedTime = _combinedDateTime();
             final alarmSettings = AlarmSettings(
               id: 42,
