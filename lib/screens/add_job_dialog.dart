@@ -178,6 +178,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
           children: [
             TextFormField(
               controller: jobInput,
+              autovalidateMode:AutovalidateMode.onUserInteraction,
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
                 labelText: 'Job',
@@ -191,6 +192,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
             ),
             TextFormField(
               controller: dateInput,
+                autovalidateMode:AutovalidateMode.onUserInteraction,
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
                 labelText: 'Date',
@@ -227,6 +229,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
             ),
             TextFormField(
               controller: timeInput,
+                autovalidateMode:AutovalidateMode.onUserInteraction,
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
                 labelText: 'Time',
