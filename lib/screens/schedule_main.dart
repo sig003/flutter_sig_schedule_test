@@ -26,9 +26,7 @@ class _ScheduleMainState extends State<ScheduleMain> {
             //Vibration.vibrate(duration: 1000);
             return AddJobDialog();
           });
-          setState(() {
-
-          });
+          setState(() {});
         },
       ),
       bottomNavigationBar: CustomBottomNavagationBar(),
