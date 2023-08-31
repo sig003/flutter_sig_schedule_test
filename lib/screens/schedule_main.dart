@@ -21,11 +21,14 @@ class _ScheduleMainState extends State<ScheduleMain> {
       body: ScheduleList(),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => {
-          showDialog(context: context, builder: (context) {
+        onPressed: () async {
+          await showDialog(context: context, builder: (context) {
             //Vibration.vibrate(duration: 1000);
             return AddJobDialog();
-          }),
+          });
+          setState(() {
+
+          });
         },
       ),
       bottomNavigationBar: CustomBottomNavagationBar(),

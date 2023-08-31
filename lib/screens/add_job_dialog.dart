@@ -293,6 +293,6 @@ class _AddJobDialogState extends State<AddJobDialog> {
           },
         ),
       ],
-    );;
+    );
   }
 }

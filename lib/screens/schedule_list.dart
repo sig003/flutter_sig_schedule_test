@@ -141,9 +141,7 @@ class _ScheduleListState extends State<ScheduleList> {
     }
 
     List<dynamic> reverserdListArray = List.from(ListArray.reversed);
-    setState(() {
-
-    });
+    
     return reverserdListArray;
   }
 
