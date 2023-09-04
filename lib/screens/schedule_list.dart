@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:alarm/alarm.dart';
 
 class ScheduleList extends StatefulWidget {
   const ScheduleList({Key? key}) : super(key: key);
@@ -159,11 +160,13 @@ class _ScheduleListState extends State<ScheduleList> {
           };
           String rawJson = jsonEncode(map);
           ListArray.add(rawJson);
+          Alarm.stop(jsonDecode(jsonData[i])['id']);
         } else {
           ListArray.add(jsonData[i]);
         }
       }
       prefs.setStringList('data', ListArray);
+
       setState(() {
 
       });

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:alarm/alarm.dart';
+import 'dart:math';
 
 class AddJobDialog extends StatefulWidget {
   final AlarmSettings? alarmSettings;
@@ -132,14 +133,20 @@ class _AddJobDialogState extends State<AddJobDialog> {
       var uuid = Uuid();
       var timeBasedId = uuid.v1();
 
+      Random random = Random();
+      int min = 1; // 최소값
+      int max = 10; // 최대값 (포함)
+
+      // 1에서 10까지의 랜덤 숫자 생성
+      int randomNumber = min + random.nextInt(max - min + 1);
       Map<String, dynamic> map = {
-        'id': timeBasedId,
+        'id': randomNumber,
         'job': jobInput.text,
         'date': dateInput.text,
         'time': timeInput.text,
         'state': 'normal'
       };
-
+      print(map);
       String rawJson = jsonEncode(map);
 
       List<String> beforeArray = prefs.getStringList('data') ?? [];
@@ -153,6 +160,18 @@ class _AddJobDialogState extends State<AddJobDialog> {
 
       ListArray.add(rawJson);
       prefs.setStringList('data', ListArray);
+
+      var combinedTime = _combinedDateTime();
+      final alarmSettings = AlarmSettings(
+        id: randomNumber,
+        dateTime: combinedTime,
+        assetAudioPath: 'assets/marimba.mp3',
+        volumeMax: false,
+        notificationTitle: showNotification ? 'Alarm example' : null,
+        notificationBody: showNotification ? 'Your alarm is ringing' : null,
+        stopOnNotificationOpen: true,
+      );
+      Alarm.set(alarmSettings: alarmSettings);
     }
   }
 
@@ -277,17 +296,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
             if (!_formKey.currentState!.validate()) {
               return;
             }
-            var combinedTime = _combinedDateTime();
-            final alarmSettings = AlarmSettings(
-              id: DateTime.now().millisecondsSinceEpoch % 100000,
-              dateTime: combinedTime,
-              assetAudioPath: 'assets/marimba.mp3',
-              volumeMax: false,
-              notificationTitle: showNotification ? 'Alarm example' : null,
-              notificationBody: showNotification ? 'Your alarm is ringing' : null,
-              stopOnNotificationOpen: true,
-            );
-            Alarm.set(alarmSettings: alarmSettings);
+
             _saveJob('aa');
             Navigator.of(context).pop();
           },
