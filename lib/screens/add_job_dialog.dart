@@ -126,6 +126,19 @@ class _AddJobDialogState extends State<AddJobDialog> {
     );
   }
 
+  int generateRandomNumberWithDigits(int numDigits) {
+    int currentTimeMillis = DateTime.now().millisecondsSinceEpoch;
+    int slicedTime = 0;
+    String currentTimeString = currentTimeMillis.toString();
+
+    if (currentTimeString.length >= numDigits) {
+      slicedTime = int.parse(currentTimeString.substring(0, numDigits));
+    } else {
+      slicedTime = int.parse(currentTimeString);
+    }
+    return slicedTime;
+  }
+
   void _saveJob(String newValue) async {
     if (newValue != '') {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -133,12 +146,15 @@ class _AddJobDialogState extends State<AddJobDialog> {
       var uuid = Uuid();
       var timeBasedId = uuid.v1();
 
-      Random random = Random();
-      int min = 1; // 최소값
-      int max = 10; // 최대값 (포함)
+      // Random random = Random();
+      // int min = 1; // 최소값
+      // int max = 10; // 최대값 (포함)
+      //
+      // // 1에서 10까지의 랜덤 숫자 생성
+      // int randomNumber = min + random.nextInt(max - min + 1);
 
-      // 1에서 10까지의 랜덤 숫자 생성
-      int randomNumber = min + random.nextInt(max - min + 1);
+      int randomNumber = generateRandomNumberWithDigits(10);
+
       Map<String, dynamic> map = {
         'id': randomNumber,
         'job': jobInput.text,
