@@ -12,8 +12,15 @@ class ScheduleMain extends StatefulWidget {
 }
 
 class _ScheduleMainState extends State<ScheduleMain> {
+  int bottomIndex = 0;
+  setBottomIndex(int index) {
+    setState(() {
+      bottomIndex = index;
+    });
+  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text('SigSchedule'),
@@ -29,7 +36,7 @@ class _ScheduleMainState extends State<ScheduleMain> {
           setState(() {});
         },
       ),
-      bottomNavigationBar: CustomBottomNavagationBar(),
+      bottomNavigationBar: CustomBottomNavagationBar(setBottomIndex: setBottomIndex),
     );
   }
 }

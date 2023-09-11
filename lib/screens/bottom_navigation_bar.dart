@@ -4,7 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class CustomBottomNavagationBar extends StatefulWidget {
-  const CustomBottomNavagationBar({Key? key}) : super(key: key);
+  const CustomBottomNavagationBar({Key? key, required this.setBottomIndex}) : super(key: key);
+  final Function setBottomIndex;
 
   @override
   State<CustomBottomNavagationBar> createState() => _CustomBottomNavagationBarState();
@@ -16,6 +17,7 @@ class _CustomBottomNavagationBarState extends State<CustomBottomNavagationBar> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      widget.setBottomIndex(index);
     });
   }
 
