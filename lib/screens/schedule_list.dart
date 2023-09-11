@@ -4,7 +4,8 @@ import 'dart:convert';
 import 'package:alarm/alarm.dart';
 
 class ScheduleList extends StatefulWidget {
-  const ScheduleList({Key? key}) : super(key: key);
+  const ScheduleList({Key? key, required this.bottomIndex}) : super(key: key);
+  final int bottomIndex;
 
   @override
   State<ScheduleList> createState() => _ScheduleListState();
@@ -126,13 +127,17 @@ class _ScheduleListState extends State<ScheduleList> {
   }
 
   Future<List<dynamic>> _getData() async {
+    String state = 'normal';
+    if (widget.bottomIndex == 1) {
+      state = 'delete';
+    }
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     List<dynamic> jsonData = prefs.getStringList('data') ?? [];
 
     var ListArray = [];
 
     for (int i = 0; i < jsonData.length; i++) {
-      if (jsonDecode(jsonData[i])['state'] == 'normal') {
+      if (jsonDecode(jsonData[i])['state'] == state) {
         ListArray.add(jsonDecode(jsonData[i]));
       }
     }

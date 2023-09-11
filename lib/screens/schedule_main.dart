@@ -25,7 +25,7 @@ class _ScheduleMainState extends State<ScheduleMain> {
       appBar: AppBar(
         title: Text('SigSchedule'),
       ),
-      body: ScheduleList(),
+      body: ScheduleList(bottomIndex: bottomIndex),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () async {
