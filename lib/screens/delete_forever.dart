@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+void _deletePreference() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.clear();
+}
 
 Future<void> DeleteForever(BuildContext context) {
   return showDialog<void>(
@@ -26,6 +32,7 @@ Future<void> DeleteForever(BuildContext context) {
             ),
             child: const Text('Permanent Delete'),
             onPressed: () {
+              _deletePreference();
               Navigator.of(context).pop();
             },
           ),

@@ -162,7 +162,6 @@ class _AddJobDialogState extends State<AddJobDialog> {
         'time': timeInput.text,
         'state': 'normal'
       };
-      print(map);
       String rawJson = jsonEncode(map);
 
       List<String> beforeArray = prefs.getStringList('data') ?? [];
