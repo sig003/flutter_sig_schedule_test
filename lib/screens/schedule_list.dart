@@ -4,8 +4,9 @@ import 'dart:convert';
 import 'package:alarm/alarm.dart';
 
 class ScheduleList extends StatefulWidget {
-  const ScheduleList({Key? key, required this.bottomIndex}) : super(key: key);
+  const ScheduleList({Key? key, required this.bottomIndex, required this.setBottomIndex}) : super(key: key);
   final int bottomIndex;
+  final Function setBottomIndex;
 
   @override
   State<ScheduleList> createState() => _ScheduleListState();
@@ -171,7 +172,7 @@ class _ScheduleListState extends State<ScheduleList> {
         }
       }
       prefs.setStringList('data', ListArray);
-
+      widget.setBottomIndex(2);
       setState(() {
 
       });

@@ -6,7 +6,7 @@ void _deletePreference() async {
   prefs.clear();
 }
 
-Future<void> DeleteForever(BuildContext context) {
+Future<void> DeleteForever(BuildContext context, setBottomIndex) {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -33,6 +33,7 @@ Future<void> DeleteForever(BuildContext context) {
             child: const Text('Permanent Delete'),
             onPressed: () {
               _deletePreference();
+              setBottomIndex(2);
               Navigator.of(context).pop();
             },
           ),

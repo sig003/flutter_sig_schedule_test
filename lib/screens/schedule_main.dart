@@ -26,7 +26,7 @@ class _ScheduleMainState extends State<ScheduleMain> {
       appBar: AppBar(
         title: Text('SigSchedule'),
       ),
-      body: ScheduleList(bottomIndex: bottomIndex),
+      body: ScheduleList(bottomIndex: bottomIndex, setBottomIndex: setBottomIndex),
       floatingActionButton: FloatingActionButton(
         child: (bottomIndex == 0) ? Icon(Icons.add) : Icon(Icons.delete_forever) ,
         onPressed: () async {
@@ -37,7 +37,7 @@ class _ScheduleMainState extends State<ScheduleMain> {
             });
             setState(() {});
           } else {
-            DeleteForever(context);
+            DeleteForever(context, setBottomIndex);
             //_DeleteForever(context);
             //new DeleteForever();
           }
