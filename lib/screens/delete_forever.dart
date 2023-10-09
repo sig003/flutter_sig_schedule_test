@@ -1,9 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 void _deletePreference() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.clear();
+  List<dynamic> jsonData = prefs.getStringList('data') ?? [];
+
+  List<String> ListArray = [];
+
+  if (jsonData.length > 0) {
+    for (int i = 0; i < jsonData.length; i++) {
+      if (jsonDecode(jsonData[i])['state'] != 'delete') {
+        Map<String, dynamic> map = {
+          'id': jsonDecode(jsonData[i])['id'],
+          'job': jsonDecode(jsonData[i])['job'],
+          'date': jsonDecode(jsonData[i])['date'],
+          'time': jsonDecode(jsonData[i])['time'],
+          'state': 'normal'
+        };
+        String rawJson = jsonEncode(map);
+        ListArray.add(rawJson);
+      }
+    }
+    prefs.setStringList('data', ListArray);
+
+  }
 }
 
 Future<void> DeleteForever(BuildContext context, setBottomIndex) {
@@ -33,7 +54,7 @@ Future<void> DeleteForever(BuildContext context, setBottomIndex) {
             child: const Text('Permanent Delete'),
             onPressed: () {
               _deletePreference();
-              setBottomIndex(2);
+              setBottomIndex(1);
               Navigator.of(context).pop();
             },
           ),

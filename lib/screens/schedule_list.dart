@@ -172,7 +172,7 @@ class _ScheduleListState extends State<ScheduleList> {
         }
       }
       prefs.setStringList('data', ListArray);
-      widget.setBottomIndex(2);
+      widget.setBottomIndex(0);
       setState(() {
 
       });
