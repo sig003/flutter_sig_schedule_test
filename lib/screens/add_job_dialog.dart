@@ -1,11 +1,9 @@
 import 'dart:convert';
-import 'package:uuid/uuid.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:alarm/alarm.dart';
-import 'dart:math';
 
 class AddJobDialog extends StatefulWidget {
   final AlarmSettings? alarmSettings;
@@ -110,14 +108,10 @@ class _AddJobDialogState extends State<AddJobDialog> {
       builder: (BuildContext context) => Container(
         height: 216,
         padding: const EdgeInsets.only(top: 6.0),
-        // The Bottom margin is provided to align the popup above the system
-        // navigation bar.
         margin: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
-        // Provide a background color for the popup.
         color: CupertinoColors.systemBackground.resolveFrom(context),
-        // Use a SafeArea widget to avoid system overlaps.
         child: SafeArea(
           top: false,
           child: child,
@@ -142,16 +136,6 @@ class _AddJobDialogState extends State<AddJobDialog> {
   void _saveJob(String newValue) async {
     if (newValue != '') {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-      var uuid = Uuid();
-      var timeBasedId = uuid.v1();
-
-      // Random random = Random();
-      // int min = 1; // 최소값
-      // int max = 10; // 최대값 (포함)
-      //
-      // // 1에서 10까지의 랜덤 숫자 생성
-      // int randomNumber = min + random.nextInt(max - min + 1);
 
       int randomNumber = generateRandomNumberWithDigits(10);
 
@@ -247,14 +231,11 @@ class _AddJobDialogState extends State<AddJobDialog> {
                 );
 
                 if (pickedDate != null ) {
-                  print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
                   String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-                  print(formattedDate); //formatted date output using intl package =>  2021-03-16
-                  //you can implement different kind of Date Format here according to your requirement
 
                   setState(() {
                     _selectedDate = pickedDate;
-                    dateInput.text = formattedDate; //set output date to TextField value.
+                    dateInput.text = formattedDate;
                   });
                 } else {
                   print("Date is not selected");
@@ -281,7 +262,6 @@ class _AddJobDialogState extends State<AddJobDialog> {
                     initialDateTime: DateTime.now(),
                     mode: CupertinoDatePickerMode.time,
                     use24hFormat: true,
-                    // This is called when the user changes the time.
                     onDateTimeChanged: (DateTime newTime) {
                       setState(() {
                         _selectedTime = newTime;

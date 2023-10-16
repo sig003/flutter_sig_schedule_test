@@ -23,7 +23,6 @@ void _deletePreference() async {
       }
     }
     prefs.setStringList('data', ListArray);
-
   }
 }
 
