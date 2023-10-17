@@ -83,45 +83,35 @@ class _AddJobDialogState extends State<AddJobDialog> {
     );
   }
 
-  void _saveJob(String newValue) async {
-    if (newValue != '') {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
+  void _saveJob() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      int randomNumber = generateRandomNumberWithDigits(10);
+    int randomNumber = generateRandomNumberWithDigits(10);
 
-      Map<String, dynamic> map = {
-        'id': randomNumber,
-        'job': jobInput.text,
-        'date': dateInput.text,
-        'time': timeInput.text,
-        'state': 'normal'
-      };
-      String rawJson = jsonEncode(map);
+    Map<String, dynamic> map = {
+      'id': randomNumber,
+      'job': jobInput.text,
+      'date': dateInput.text,
+      'time': timeInput.text,
+      'state': 'normal'
+    };
+    String rawJson = jsonEncode(map);
 
-      List<String> beforeArray = prefs.getStringList('data') ?? [];
+    List<String> beforeArray = prefs.getStringList('data') ?? [];
 
-      ListArray = [];
-      if (beforeArray.length > 0) {
-        for (int i = 0; i < beforeArray.length; i += 1) {
-          ListArray.add(beforeArray[i]);
-        }
+    ListArray = [];
+    if (beforeArray.length > 0) {
+      for (int i = 0; i < beforeArray.length; i += 1) {
+        ListArray.add(beforeArray[i]);
       }
-
-      ListArray.add(rawJson);
-      prefs.setStringList('data', ListArray);
-
-      var combinedTime = combinedDateTime(_selectedDate, _selectedTime);
-      final alarmSettings = AlarmSettings(
-        id: randomNumber,
-        dateTime: combinedTime,
-        assetAudioPath: 'assets/marimba.mp3',
-        volumeMax: false,
-        notificationTitle: showNotification ? 'Alarm example' : null,
-        notificationBody: showNotification ? 'Your alarm is ringing' : null,
-        stopOnNotificationOpen: true,
-      );
-      Alarm.set(alarmSettings: alarmSettings);
     }
+
+    ListArray.add(rawJson);
+    prefs.setStringList('data', ListArray);
+
+    var combinedTime = combinedDateTime(_selectedDate, _selectedTime);
+
+    SetAlarm(randomNumber, combinedTime, showNotification);
   }
 
   @override
@@ -229,8 +219,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
             if (!_formKey.currentState!.validate()) {
               return;
             }
-
-            _saveJob('aa');
+            _saveJob();
             Navigator.of(context).pop();
           },
         ),

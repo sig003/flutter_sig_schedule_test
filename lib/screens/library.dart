@@ -1,3 +1,5 @@
+import 'package:alarm/alarm.dart';
+
 int generateRandomNumberWithDigits(int numDigits) {
   int currentTimeMillis = DateTime.now().millisecondsSinceEpoch;
   int slicedTime = 0;
@@ -20,4 +22,17 @@ DateTime combinedDateTime(selectedDate, selectedTime) {
     selectedTime.minute,
   );
   return combinedDateTime;
+}
+
+void SetAlarm(randomNumber, combinedTime, showNotification) {
+  final alarmSettings = AlarmSettings(
+    id: randomNumber,
+    dateTime: combinedTime,
+    assetAudioPath: 'assets/marimba.mp3',
+    volumeMax: false,
+    notificationTitle: showNotification ? 'Alarm example' : null,
+    notificationBody: showNotification ? 'Your alarm is ringing' : null,
+    stopOnNotificationOpen: true,
+  );
+  Alarm.set(alarmSettings: alarmSettings);
 }
