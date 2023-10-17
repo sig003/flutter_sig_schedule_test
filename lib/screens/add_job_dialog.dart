@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:alarm/alarm.dart';
 import 'package:sig_schedule_test/screens/library.dart';
 
@@ -20,7 +18,6 @@ class _AddJobDialogState extends State<AddJobDialog> {
   TextEditingController jobInput = TextEditingController();
   TextEditingController dateInput = TextEditingController();
   TextEditingController timeInput = TextEditingController();
-  List<String> ListArray = [];
   DateTime _selectedDate = DateTime.now();
   DateTime _selectedTime = DateTime.now();
 
@@ -81,37 +78,6 @@ class _AddJobDialogState extends State<AddJobDialog> {
         ),
       ),
     );
-  }
-
-  void _saveJob() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    int randomNumber = generateRandomNumberWithDigits(10);
-
-    Map<String, dynamic> map = {
-      'id': randomNumber,
-      'job': jobInput.text,
-      'date': dateInput.text,
-      'time': timeInput.text,
-      'state': 'normal'
-    };
-    String rawJson = jsonEncode(map);
-
-    List<String> beforeArray = prefs.getStringList('data') ?? [];
-
-    ListArray = [];
-    if (beforeArray.length > 0) {
-      for (int i = 0; i < beforeArray.length; i += 1) {
-        ListArray.add(beforeArray[i]);
-      }
-    }
-
-    ListArray.add(rawJson);
-    prefs.setStringList('data', ListArray);
-
-    var combinedTime = combinedDateTime(_selectedDate, _selectedTime);
-
-    SetAlarm(randomNumber, combinedTime, showNotification);
   }
 
   @override
@@ -219,7 +185,8 @@ class _AddJobDialogState extends State<AddJobDialog> {
             if (!_formKey.currentState!.validate()) {
               return;
             }
-            _saveJob();
+            var combinedTime = combinedDateTime(_selectedDate, _selectedTime);
+            saveJob(jobInput, dateInput, timeInput, combinedTime, showNotification);
             Navigator.of(context).pop();
           },
         ),

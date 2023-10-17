@@ -1,4 +1,6 @@
 import 'package:alarm/alarm.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 int generateRandomNumberWithDigits(int numDigits) {
   int currentTimeMillis = DateTime.now().millisecondsSinceEpoch;
@@ -35,4 +37,33 @@ void SetAlarm(randomNumber, combinedTime, showNotification) {
     stopOnNotificationOpen: true,
   );
   Alarm.set(alarmSettings: alarmSettings);
+}
+
+void saveJob(jobInput, dateInput, timeInput, combinedTime, showNotification) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  int randomNumber = generateRandomNumberWithDigits(10);
+
+  Map<String, dynamic> map = {
+    'id': randomNumber,
+    'job': jobInput.text,
+    'date': dateInput.text,
+    'time': timeInput.text,
+    'state': 'normal'
+  };
+  String rawJson = jsonEncode(map);
+
+  List<String> beforeArray = prefs.getStringList('data') ?? [];
+
+  List<String> ListArray = [];
+  if (beforeArray.length > 0) {
+    for (int i = 0; i < beforeArray.length; i += 1) {
+      ListArray.add(beforeArray[i]);
+    }
+  }
+
+  ListArray.add(rawJson);
+  prefs.setStringList('data', ListArray);
+
+  SetAlarm(randomNumber, combinedTime, showNotification);
 }
