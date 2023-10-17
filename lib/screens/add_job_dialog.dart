@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:alarm/alarm.dart';
+import 'package:sig_schedule_test/screens/library.dart';
 
 class AddJobDialog extends StatefulWidget {
   final AlarmSettings? alarmSettings;
@@ -63,45 +64,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
       assetAudio = widget.alarmSettings!.assetAudioPath;
     }
   }
-  AlarmSettings buildAlarmSettings() {
-    final now = DateTime.now();
-    final id = creating
-        ? DateTime.now().millisecondsSinceEpoch % 100000
-        : widget.alarmSettings!.id;
 
-    DateTime dateTime = DateTime(
-      now.year,
-      now.month,
-      now.day,
-      now.hour,
-      now.minute,
-      0,
-      0,
-    );
-    if (dateTime.isBefore(DateTime.now())) {
-      dateTime = dateTime.add(const Duration(days: 1));
-    }
-
-    final alarmSettings = AlarmSettings(
-      id: id,
-      dateTime: dateTime,
-      loopAudio: false,
-      vibrate: true,
-      volumeMax: true,
-      notificationTitle: showNotification ? 'Alarm example' : null,
-      notificationBody: showNotification ? 'Your alarm ($id) is ringing' : null,
-      assetAudioPath: 'assets/marimba.mp3',
-      stopOnNotificationOpen: false,
-    );
-    return alarmSettings;
-  }
-  void saveAlarm() {
-    setState(() => loading = true);
-    Alarm.set(alarmSettings: buildAlarmSettings()).then((res) {
-      if (res) Navigator.pop(context, true);
-    });
-    setState(() => loading = false);
-  }
   void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(
       context: context,
@@ -118,19 +81,6 @@ class _AddJobDialogState extends State<AddJobDialog> {
         ),
       ),
     );
-  }
-
-  int generateRandomNumberWithDigits(int numDigits) {
-    int currentTimeMillis = DateTime.now().millisecondsSinceEpoch;
-    int slicedTime = 0;
-    String currentTimeString = currentTimeMillis.toString();
-
-    if (currentTimeString.length >= numDigits) {
-      slicedTime = int.parse(currentTimeString.substring(0, numDigits));
-    } else {
-      slicedTime = int.parse(currentTimeString);
-    }
-    return slicedTime;
   }
 
   void _saveJob(String newValue) async {
@@ -160,7 +110,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
       ListArray.add(rawJson);
       prefs.setStringList('data', ListArray);
 
-      var combinedTime = _combinedDateTime();
+      var combinedTime = combinedDateTime(_selectedDate, _selectedTime);
       final alarmSettings = AlarmSettings(
         id: randomNumber,
         dateTime: combinedTime,
@@ -172,17 +122,6 @@ class _AddJobDialogState extends State<AddJobDialog> {
       );
       Alarm.set(alarmSettings: alarmSettings);
     }
-  }
-
-  DateTime _combinedDateTime() {
-    DateTime combinedDateTime = DateTime(
-      _selectedDate.year,
-      _selectedDate.month,
-      _selectedDate.day,
-      _selectedTime.hour,
-      _selectedTime.minute,
-    );
-    return combinedDateTime;
   }
 
   @override
@@ -266,7 +205,6 @@ class _AddJobDialogState extends State<AddJobDialog> {
                       setState(() {
                         _selectedTime = newTime;
                         String formattedTime = DateFormat('HH:mm').format(newTime);
-                        print(formattedTime);
                         timeInput.text = formattedTime;
                       }
                       );
