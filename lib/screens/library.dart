@@ -140,3 +140,20 @@ void deletePreference() async {
     prefs.setStringList('data', ListArray);
   }
 }
+
+Future<String> getDeleteBadgesCount() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<dynamic> jsonData = prefs.getStringList('data') ?? [];
+
+  var ListArray = [];
+
+  for (int i = 0; i < jsonData.length; i++) {
+    if (jsonDecode(jsonData[i])['state'] == 'delete') {
+      ListArray.add(jsonDecode(jsonData[i]));
+    }
+  }
+
+  String count = ListArray.length.toString();
+
+  return count;
+}

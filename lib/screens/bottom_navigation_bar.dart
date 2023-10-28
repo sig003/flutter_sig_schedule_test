@@ -1,7 +1,6 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
+import 'package:sig_schedule_test/screens/library.dart';
 
 class CustomBottomNavagationBar extends StatefulWidget {
   const CustomBottomNavagationBar({Key? key, required this.setBottomIndex}) : super(key: key);
@@ -24,7 +23,7 @@ class _CustomBottomNavagationBarState extends State<CustomBottomNavagationBar> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _getDeleteBadgesCount(),
+        future: getDeleteBadgesCount(),
         builder: (context, snapshot) {
           return BottomNavigationBar(
             items: <BottomNavigationBarItem>[
@@ -52,22 +51,5 @@ class _CustomBottomNavagationBarState extends State<CustomBottomNavagationBar> {
           );
       }
     );
-  }
-
-  Future<String> _getDeleteBadgesCount() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<dynamic> jsonData = prefs.getStringList('data') ?? [];
-
-    var ListArray = [];
-
-    for (int i = 0; i < jsonData.length; i++) {
-      if (jsonDecode(jsonData[i])['state'] == 'delete') {
-        ListArray.add(jsonDecode(jsonData[i]));
-      }
-    }
-
-    String count = ListArray.length.toString();
-
-    return count;
   }
 }
