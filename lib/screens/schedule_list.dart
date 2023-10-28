@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
-import 'package:alarm/alarm.dart';
+import 'package:sig_schedule_test/screens/library.dart';
 
 class ScheduleList extends StatefulWidget {
   const ScheduleList({Key? key, required this.bottomIndex, required this.setBottomIndex}) : super(key: key);
@@ -16,7 +14,7 @@ class _ScheduleListState extends State<ScheduleList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _getData(),
+      future: getData(widget.bottomIndex),
       builder: (context, snapshot) {
         int dataLength = snapshot.data?.length ?? 0;
         if (dataLength <= 0) {
@@ -102,7 +100,7 @@ class _ScheduleListState extends State<ScheduleList> {
                                                     ),
                                                     TextButton(
                                                         onPressed: () {
-                                                            _delData(resultData?[index]['id'] ?? 'None');
+                                                            delData(resultData?[index]['id'] ?? 'None', widget);
                                                             Navigator.pop(context);
                                                           },
                                                         child: const Text('Delete')
@@ -125,57 +123,5 @@ class _ScheduleListState extends State<ScheduleList> {
           }
         }
       );
-  }
-
-  Future<List<dynamic>> _getData() async {
-    String state = 'normal';
-    if (widget.bottomIndex == 1) {
-      state = 'delete';
-    }
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<dynamic> jsonData = prefs.getStringList('data') ?? [];
-
-    var ListArray = [];
-
-    for (int i = 0; i < jsonData.length; i++) {
-      if (jsonDecode(jsonData[i])['state'] == state) {
-        ListArray.add(jsonDecode(jsonData[i]));
-      }
-    }
-
-    List<dynamic> reverserdListArray = List.from(ListArray.reversed);
-    
-    return reverserdListArray;
-  }
-
-   void _delData(id) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<dynamic> jsonData = prefs.getStringList('data') ?? [];
-
-    List<String> ListArray = [];
-
-    if (jsonData.length > 0) {
-      for (int i = 0; i < jsonData.length; i++) {
-        if (jsonDecode(jsonData[i])['id'] == id) {
-          Map<String, dynamic> map = {
-            'id': jsonDecode(jsonData[i])['id'],
-            'job': jsonDecode(jsonData[i])['job'],
-            'date': jsonDecode(jsonData[i])['date'],
-            'time': jsonDecode(jsonData[i])['time'],
-            'state': 'delete'
-          };
-          String rawJson = jsonEncode(map);
-          ListArray.add(rawJson);
-          Alarm.stop(jsonDecode(jsonData[i])['id']);
-        } else {
-          ListArray.add(jsonData[i]);
-        }
-      }
-      prefs.setStringList('data', ListArray);
-      widget.setBottomIndex(0);
-      setState(() {
-
-      });
-    }
   }
 }

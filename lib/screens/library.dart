@@ -67,3 +67,76 @@ void saveJob(jobInput, dateInput, timeInput, combinedTime, showNotification) asy
 
   SetAlarm(randomNumber, combinedTime, showNotification);
 }
+
+Future<List<dynamic>> getData(bottomIndex) async {
+  String state = 'normal';
+  if (bottomIndex == 1) {
+    state = 'delete';
+  }
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<dynamic> jsonData = prefs.getStringList('data') ?? [];
+
+  var ListArray = [];
+
+  for (int i = 0; i < jsonData.length; i++) {
+    if (jsonDecode(jsonData[i])['state'] == state) {
+      ListArray.add(jsonDecode(jsonData[i]));
+    }
+  }
+
+  List<dynamic> reverserdListArray = List.from(ListArray.reversed);
+
+  return reverserdListArray;
+}
+
+void delData(id, widget) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<dynamic> jsonData = prefs.getStringList('data') ?? [];
+
+  List<String> ListArray = [];
+
+  if (jsonData.length > 0) {
+    for (int i = 0; i < jsonData.length; i++) {
+      if (jsonDecode(jsonData[i])['id'] == id) {
+        Map<String, dynamic> map = {
+          'id': jsonDecode(jsonData[i])['id'],
+          'job': jsonDecode(jsonData[i])['job'],
+          'date': jsonDecode(jsonData[i])['date'],
+          'time': jsonDecode(jsonData[i])['time'],
+          'state': 'delete'
+        };
+        String rawJson = jsonEncode(map);
+        ListArray.add(rawJson);
+        Alarm.stop(jsonDecode(jsonData[i])['id']);
+      } else {
+        ListArray.add(jsonData[i]);
+      }
+    }
+    prefs.setStringList('data', ListArray);
+    widget.setBottomIndex(0);
+  }
+}
+
+void deletePreference() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<dynamic> jsonData = prefs.getStringList('data') ?? [];
+
+  List<String> ListArray = [];
+
+  if (jsonData.length > 0) {
+    for (int i = 0; i < jsonData.length; i++) {
+      if (jsonDecode(jsonData[i])['state'] != 'delete') {
+        Map<String, dynamic> map = {
+          'id': jsonDecode(jsonData[i])['id'],
+          'job': jsonDecode(jsonData[i])['job'],
+          'date': jsonDecode(jsonData[i])['date'],
+          'time': jsonDecode(jsonData[i])['time'],
+          'state': 'normal'
+        };
+        String rawJson = jsonEncode(map);
+        ListArray.add(rawJson);
+      }
+    }
+    prefs.setStringList('data', ListArray);
+  }
+}
