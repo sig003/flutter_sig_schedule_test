@@ -28,8 +28,12 @@ class _CustomBottomNavagationBarState extends State<CustomBottomNavagationBar> {
           return BottomNavigationBar(
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite),
-                  label: 'Favorite',
+                  icon: Icon(Icons.home_rounded),
+                  label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.done),
+                label: 'Done',
               ),
               BottomNavigationBarItem(
                   label: 'Delete',

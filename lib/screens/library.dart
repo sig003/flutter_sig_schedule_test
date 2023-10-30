@@ -70,9 +70,13 @@ void saveJob(jobInput, dateInput, timeInput, combinedTime, showNotification) asy
 
 Future<List<dynamic>> getData(bottomIndex) async {
   String state = 'normal';
-  if (bottomIndex == 1) {
-    state = 'delete';
+
+  switch(bottomIndex) {
+    case 1: state = 'done'; break;
+    case 2: state = 'delete'; break;
+    default: state = 'normal';
   }
+
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   List<dynamic> jsonData = prefs.getStringList('data') ?? [];
 
