@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sig_schedule_test/screens/library.dart';
+import 'package:sig_schedule_test/screens/delete_job_dialog.dart';
 
 class ScheduleList extends StatefulWidget {
   const ScheduleList({Key? key, required this.bottomIndex, required this.setBottomIndex}) : super(key: key);
@@ -88,26 +89,9 @@ class _ScheduleListState extends State<ScheduleList> {
                                           child: IconButton(
                                             icon: const Icon(Icons.delete_rounded),
                                             color: Colors.red,
-                                            onPressed: () => showDialog(
-                                                context: context,
-                                                builder: (BuildContext context) => AlertDialog(
-                                                  title: const Text('Delete Item'),
-                                                  content: const Text('Do you want a delete?'),
-                                                  actions: [
-                                                    TextButton(
-                                                        onPressed: () => Navigator.pop(context, 'Cancel'),
-                                                        child: const Text('Cancel')
-                                                    ),
-                                                    TextButton(
-                                                        onPressed: () {
-                                                            delData(resultData?[index]['id'] ?? 'None', widget);
-                                                            Navigator.pop(context);
-                                                          },
-                                                        child: const Text('Delete')
-                                                    ),
-                                                  ],
-                                                ),
-                                            ),
+                                            onPressed: () {
+                                              DeleteJobDialog(context, resultData?[index]['id'], widget);
+                                            }
                                           ),
                                         ),
                                       ],
