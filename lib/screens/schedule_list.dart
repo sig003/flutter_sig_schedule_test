@@ -86,7 +86,7 @@ class _ScheduleListState extends State<ScheduleList> {
                                         Container(
                                           padding: EdgeInsets.only(right: 10),
                                           child: IconButton(
-                                            icon: const Icon(Icons.delete),
+                                            icon: const Icon(Icons.delete_rounded),
                                             color: Colors.red,
                                             onPressed: () => showDialog(
                                                 context: context,

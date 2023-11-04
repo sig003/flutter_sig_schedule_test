@@ -32,7 +32,7 @@ class _CustomBottomNavagationBarState extends State<CustomBottomNavagationBar> {
                   label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.done),
+                icon: Icon(Icons.done_rounded),
                 label: 'Done',
               ),
               BottomNavigationBarItem(
@@ -46,7 +46,7 @@ class _CustomBottomNavagationBarState extends State<CustomBottomNavagationBar> {
                           fontWeight: FontWeight.w900
                       ),
                     ),
-                    child: Icon(Icons.delete),
+                    child: Icon(Icons.delete_rounded),
                   ),
               ),
             ],
