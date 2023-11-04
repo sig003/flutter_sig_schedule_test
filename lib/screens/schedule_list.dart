@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sig_schedule_test/screens/library.dart';
 import 'package:sig_schedule_test/screens/delete_job_dialog.dart';
+import 'package:sig_schedule_test/screens/widgets.dart';
 
 class ScheduleList extends StatefulWidget {
   const ScheduleList({Key? key, required this.bottomIndex, required this.setBottomIndex}) : super(key: key);
@@ -50,35 +51,8 @@ class _ScheduleListState extends State<ScheduleList> {
                                                   crossAxisAlignment: CrossAxisAlignment
                                                       .start,
                                                   children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                          .fromLTRB(8, 5, 0, 5),
-                                                      child: Text(
-                                                          resultData?[index]['job'] ??
-                                                              'None',
-                                                          style: TextStyle(
-                                                              fontSize: 17,
-                                                              fontWeight: FontWeight
-                                                                  .bold)),
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets
-                                                              .all(8.0),
-                                                          child: Text(
-                                                              resultData?[index]['date'] ??
-                                                                  'None'),
-                                                        ),
-                                                        Padding(
-                                                          padding: const EdgeInsets
-                                                              .all(8.0),
-                                                          child: Text(
-                                                              resultData?[index]['time'] ??
-                                                                  'None'),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                    JobName(jobName: resultData?[index]['job'] ?? 'None'),
+                                                    DateAndTimeString(dateString: resultData?[index]['date'] ?? 'None', timeString: resultData?[index]['time'] ?? 'None'),
                                                   ],
                                                 ),
                                               ],
