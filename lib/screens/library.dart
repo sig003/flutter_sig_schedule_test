@@ -93,7 +93,7 @@ Future<List<dynamic>> getData(bottomIndex) async {
   return reverserdListArray;
 }
 
-void delData(id, widget) async {
+void dataAction(action, id, widget) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   List<dynamic> jsonData = prefs.getStringList('data') ?? [];
 
@@ -107,7 +107,7 @@ void delData(id, widget) async {
           'job': jsonDecode(jsonData[i])['job'],
           'date': jsonDecode(jsonData[i])['date'],
           'time': jsonDecode(jsonData[i])['time'],
-          'state': 'delete'
+          'state': action
         };
         String rawJson = jsonEncode(map);
         ListArray.add(rawJson);

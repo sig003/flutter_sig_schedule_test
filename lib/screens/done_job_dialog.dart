@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sig_schedule_test/screens/library.dart';
 
-Future<void> DoneJobDialog(BuildContext context, id) {
+Future<void> DoneJobDialog(BuildContext context, id, widget) {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) => AlertDialog(
@@ -14,7 +14,7 @@ Future<void> DoneJobDialog(BuildContext context, id) {
         ),
         TextButton(
             onPressed: () {
-              //delData(id ?? 'None', widget);
+              dataAction('done', id ?? 'None', widget);
               Navigator.pop(context);
             },
             child: const Text('Done')

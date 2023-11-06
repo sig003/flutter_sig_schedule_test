@@ -14,7 +14,7 @@ Future<void> DeleteJobDialog(BuildContext context, id, widget) {
         ),
         TextButton(
             onPressed: () {
-              delData(id ?? 'None', widget);
+              dataAction('delete', id ?? 'None', widget);
               Navigator.pop(context);
             },
             child: const Text('Delete')

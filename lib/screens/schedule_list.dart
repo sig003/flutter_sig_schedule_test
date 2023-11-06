@@ -67,7 +67,7 @@ class _ScheduleListState extends State<ScheduleList> {
                                                   icon: const Icon(Icons.done_rounded),
                                                   color: Colors.green,
                                                   onPressed: () {
-                                                    DoneJobDialog(context, resultData?[index]['id']);
+                                                    DoneJobDialog(context, resultData?[index]['id'], widget);
                                                   }
                                               ),
                                             ),
