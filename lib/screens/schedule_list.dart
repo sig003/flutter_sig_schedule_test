@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sig_schedule_test/screens/done_job_dialog.dart';
 import 'package:sig_schedule_test/screens/library.dart';
 import 'package:sig_schedule_test/screens/delete_job_dialog.dart';
 import 'package:sig_schedule_test/screens/widgets.dart';
+import 'package:sig_schedule_test/screens/done_job_dialog.dart';
 
 class ScheduleList extends StatefulWidget {
   const ScheduleList({Key? key, required this.bottomIndex, required this.setBottomIndex}) : super(key: key);
@@ -58,15 +60,28 @@ class _ScheduleListState extends State<ScheduleList> {
                                               ],
                                             )
                                         ),
-                                        Container(
-                                          padding: EdgeInsets.only(right: 10),
-                                          child: IconButton(
-                                            icon: const Icon(Icons.delete_rounded),
-                                            color: Colors.red,
-                                            onPressed: () {
-                                              DeleteJobDialog(context, resultData?[index]['id'], widget);
-                                            }
-                                          ),
+                                        Row(
+                                          children: [
+                                            Container(
+                                              child: IconButton(
+                                                  icon: const Icon(Icons.done_rounded),
+                                                  color: Colors.green,
+                                                  onPressed: () {
+                                                    DoneJobDialog(context, resultData?[index]['id']);
+                                                  }
+                                              ),
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.only(right: 10),
+                                              child: IconButton(
+                                                  icon: const Icon(Icons.delete_rounded),
+                                                  color: Colors.red,
+                                                  onPressed: () {
+                                                    DeleteJobDialog(context, resultData?[index]['id'], widget);
+                                                  }
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     )
