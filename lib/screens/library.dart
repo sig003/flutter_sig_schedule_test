@@ -145,7 +145,7 @@ void deletePreference() async {
   }
 }
 
-Future<String> getDeleteBadgesCount() async {
+Future<int> getDeleteBadgesCount() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   List<dynamic> jsonData = prefs.getStringList('data') ?? [];
 
@@ -157,7 +157,7 @@ Future<String> getDeleteBadgesCount() async {
     }
   }
 
-  String count = ListArray.length.toString();
+  int count = ListArray.length.toInt();
 
   return count;
 }

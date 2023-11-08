@@ -37,7 +37,7 @@ class _CustomBottomNavagationBarState extends State<CustomBottomNavagationBar> {
               ),
               BottomNavigationBarItem(
                   label: 'Delete',
-                  icon: badges.Badge(
+                  icon: snapshot.data != null && snapshot.data != 0 ? badges.Badge(
                     badgeContent: Text(
                       snapshot.data.toString(),
                       style: TextStyle(
@@ -47,7 +47,7 @@ class _CustomBottomNavagationBarState extends State<CustomBottomNavagationBar> {
                       ),
                     ),
                     child: Icon(Icons.delete_rounded),
-                  ),
+                  ) : Icon(Icons.delete_rounded),
               ),
             ],
             currentIndex: _selectedIndex,
