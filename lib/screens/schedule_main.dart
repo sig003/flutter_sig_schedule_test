@@ -26,7 +26,7 @@ class _ScheduleMainState extends State<ScheduleMain> {
         title: Text('SigSchedule'),
       ),
       body: ScheduleList(bottomIndex: bottomIndex, setBottomIndex: setBottomIndex),
-      floatingActionButton: FloatingActionButton(
+        floatingActionButton: (bottomIndex != 1) ? FloatingActionButton(
         child: (bottomIndex == 0) ? Icon(Icons.add) : Icon(Icons.delete_forever) ,
         onPressed: () async {
           if (bottomIndex == 0) {
@@ -38,7 +38,7 @@ class _ScheduleMainState extends State<ScheduleMain> {
             DeleteForever(context, setBottomIndex);
           }
         },
-      ),
+      ) : SizedBox.shrink(),
       bottomNavigationBar: CustomBottomNavagationBar(setBottomIndex: setBottomIndex),
     );
   }
