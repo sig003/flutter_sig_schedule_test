@@ -3,7 +3,7 @@ import 'package:sig_schedule_test/screens/done_job_dialog.dart';
 import 'package:sig_schedule_test/screens/library.dart';
 import 'package:sig_schedule_test/screens/delete_job_dialog.dart';
 import 'package:sig_schedule_test/screens/widgets.dart';
-import 'package:sig_schedule_test/screens/done_job_dialog.dart';
+import 'package:sig_schedule_test/screens/modify_job_dialog.dart';
 
 class ScheduleList extends StatefulWidget {
   const ScheduleList({Key? key, required this.bottomIndex, required this.setBottomIndex}) : super(key: key);
@@ -36,7 +36,11 @@ class _ScheduleListState extends State<ScheduleList> {
                   return Column(
                       children: [
                         SizedBox(height: 10,),
-                        Container(
+                        InkWell(
+                          onTap: () {
+                            ModifyJobDialog(context);
+                            },
+                        child: Container(
                           height: 80,
                           child: Card(
                             child: Container(
@@ -88,6 +92,7 @@ class _ScheduleListState extends State<ScheduleList> {
                                 )
                             ),
                           ),
+                        ),
                         ),
                       ]
                   );
