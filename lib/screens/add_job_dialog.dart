@@ -37,6 +37,16 @@ class _AddJobDialogState extends State<AddJobDialog> {
     dateInput.text = '';
     timeInput.text = '';
 
+    Future<List<dynamic>> jsonData = getSharedPreference();
+    jsonData.then((val) {
+      // int가 나오면 해당 값을 출력
+      print('val: $val');
+    }).catchError((error) {
+      // error가 해당 에러를 출력
+      print('error: $error');
+    });
+
+
     creating = widget.alarmSettings == null;
     if (creating) {
       final dt = DateTime.now().add(const Duration(minutes: 1));
@@ -105,7 +115,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
             ),
             TextFormField(
               controller: dateInput,
-                autovalidateMode:AutovalidateMode.onUserInteraction,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
               decoration: const InputDecoration(
                 border: UnderlineInputBorder(),
                 labelText: 'Date',

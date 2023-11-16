@@ -2,6 +2,12 @@ import 'package:alarm/alarm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
+Future<List<dynamic>> getSharedPreference() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<dynamic> jsonData = prefs.getStringList('data') ?? [];
+  return jsonData;
+}
+
 int generateRandomNumberWithDigits(int numDigits) {
   int currentTimeMillis = DateTime.now().millisecondsSinceEpoch;
   int slicedTime = 0;
