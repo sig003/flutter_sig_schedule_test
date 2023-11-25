@@ -38,7 +38,7 @@ class _ScheduleListState extends State<ScheduleList> {
                         SizedBox(height: 10,),
                         InkWell(
                           onTap: () {
-                            ModifyJobDialog(id: resultData?[index]['id']);
+                            ModifyJobDialog(context, resultData?[index]['id']);
                             },
                         child: Container(
                           height: 80,

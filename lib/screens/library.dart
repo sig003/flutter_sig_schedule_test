@@ -2,10 +2,20 @@ import 'package:alarm/alarm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-Future<List<dynamic>> getSharedPreference() async {
+Future<List<dynamic>> getSharedPreference(id) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   List<dynamic> jsonData = prefs.getStringList('data') ?? [];
-  return jsonData;
+
+  List<dynamic> returnData = [];
+
+  for (int i = 0; i < jsonData.length; i += 1) {
+    if (jsonDecode(jsonData[i])['id'] == id) {
+      returnData.add(jsonDecode(jsonData[i]));
+      break;
+    }
+  }
+
+  return returnData;
 }
 
 int generateRandomNumberWithDigits(int numDigits) {
