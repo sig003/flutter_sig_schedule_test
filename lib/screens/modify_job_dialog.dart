@@ -138,8 +138,9 @@ Future<void> ModifyJobDialog(BuildContext context, id) async {
               if (!_formKey.currentState!.validate()) {
                 return;
               }
+              var showNotification = true;
               var combinedTime = combinedDateTime(_selectedDate, _selectedTime);
-              //saveJob(jobInput, dateInput, timeInput, combinedTime, showNotification);
+              saveJob(jobInput, dateInput, timeInput, combinedTime, showNotification);
               Navigator.pop(context);
             }
         ),
