@@ -87,10 +87,8 @@ Future<void> ModifyJobDialog(BuildContext context, id) async {
                     if (pickedDate != null ) {
                       String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
 
-                      //setState(() {
-                        _selectedDate = pickedDate;
-                        dateInput.text = formattedDate;
-                      //});
+                      _selectedDate = pickedDate;
+                      dateInput.text = formattedDate;
                     } else {
                       print("Date is not selected");
                     }
@@ -145,7 +143,7 @@ Future<void> ModifyJobDialog(BuildContext context, id) async {
                 }
                 var showNotification = true;
                 var combinedTime = combinedDateTime(_selectedDate, _selectedTime);
-                saveJob(jobInput, dateInput, timeInput, combinedTime, showNotification);
+                modifyJob(id, jobInput, dateInput, timeInput, combinedTime, showNotification);
                 Navigator.pop(context);
               }
           ),

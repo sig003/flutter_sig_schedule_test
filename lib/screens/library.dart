@@ -177,3 +177,32 @@ Future<int> getDeleteBadgesCount() async {
 
   return count;
 }
+
+void modifyJob(id, jobInput, dateInput, timeInput, combinedTime, showNotification) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<String> jsonData = prefs.getStringList('data') ?? [];
+
+  Map<String, dynamic> map = {
+    'id': id,
+    'job': jobInput.text,
+    'date': dateInput.text,
+    'time': timeInput.text,
+    'state': 'normal'
+  };
+  String rawJson = jsonEncode(map);
+
+  List<String> ListArray = [];
+
+  if (jsonData.length > 0) {
+    for (int i = 0; i < jsonData.length; i += 1) {
+      if (jsonDecode(jsonData[i])['id'] != id) {
+        ListArray.add(jsonDecode(jsonData[i]));
+      }
+    }
+  }
+
+  ListArray.add(rawJson);
+  prefs.setStringList('data', ListArray);
+
+  SetAlarm(id, combinedTime, showNotification);
+}
