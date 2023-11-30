@@ -15,6 +15,12 @@ class ScheduleList extends StatefulWidget {
 }
 
 class _ScheduleListState extends State<ScheduleList> {
+  void execSetState() {
+    setState(() {
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -38,7 +44,7 @@ class _ScheduleListState extends State<ScheduleList> {
                         SizedBox(height: 10,),
                         InkWell(
                           onTap: () {
-                            ModifyJobDialog(context, resultData?[index]['id']);
+                            ModifyJobDialog(context, resultData?[index]['id'], execSetState);
                             },
                         child: Container(
                           height: 80,

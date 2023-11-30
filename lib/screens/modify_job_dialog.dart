@@ -3,7 +3,7 @@ import 'package:sig_schedule_test/screens/library.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
-Future<void> ModifyJobDialog(BuildContext context, id) async {
+Future<void> ModifyJobDialog(BuildContext context, id, execSetState) async {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController jobInput = TextEditingController();
@@ -144,6 +144,7 @@ Future<void> ModifyJobDialog(BuildContext context, id) async {
                 var showNotification = true;
                 var combinedTime = combinedDateTime(_selectedDate, _selectedTime);
                 modifyJob(id, jobInput, dateInput, timeInput, combinedTime, showNotification);
+                execSetState();
                 Navigator.pop(context);
               }
           ),
