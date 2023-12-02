@@ -48,8 +48,8 @@ void SetAlarm(randomNumber, combinedTime, showNotification) {
     dateTime: combinedTime,
     assetAudioPath: 'assets/marimba.mp3',
     volumeMax: false,
-    notificationTitle: showNotification ? 'Alarm example' : null,
-    notificationBody: showNotification ? 'Your alarm is ringing' : null,
+    notificationTitle: showNotification,
+    notificationBody: showNotification,
     stopOnNotificationOpen: true,
   );
   Alarm.set(alarmSettings: alarmSettings);

@@ -5,8 +5,7 @@ import 'package:alarm/alarm.dart';
 import 'package:sig_schedule_test/screens/library.dart';
 
 class AddJobDialog extends StatefulWidget {
-  final AlarmSettings? alarmSettings;
-  const AddJobDialog({Key? key, this.alarmSettings}) : super(key: key);
+  const AddJobDialog({Key? key}) : super(key: key);
 
   @override
   State<AddJobDialog> createState() => _AddJobDialogState();
@@ -21,45 +20,12 @@ class _AddJobDialogState extends State<AddJobDialog> {
   DateTime _selectedDate = DateTime.now();
   DateTime _selectedTime = DateTime.now();
 
-  bool loading = false;
-  late bool creating;
-  late TimeOfDay selectedTime;
-  late bool loopAudio;
-  late bool vibrate;
-  late bool volumeMax;
-  late bool showNotification;
-  late String assetAudio;
-
   @override
   void initState() {
     super.initState();
     jobInput.text = '';
     dateInput.text = '';
     timeInput.text = '';
-
-    creating = widget.alarmSettings == null;
-    if (creating) {
-      final dt = DateTime.now().add(const Duration(minutes: 1));
-      selectedTime = TimeOfDay(hour: dt.hour, minute: dt.minute);
-      loopAudio = true;
-      vibrate = true;
-      volumeMax = true;
-      showNotification = true;
-      assetAudio = 'assets/marimba.mp3';
-    } else {
-      selectedTime = TimeOfDay(
-        hour: widget.alarmSettings!.dateTime.hour,
-        minute: widget.alarmSettings!.dateTime.minute,
-      );
-      loopAudio = widget.alarmSettings!.loopAudio;
-      vibrate = widget.alarmSettings!.vibrate;
-      volumeMax = widget.alarmSettings!.volumeMax;
-      showNotification = widget.alarmSettings!.notificationTitle != null &&
-          widget.alarmSettings!.notificationTitle!.isNotEmpty &&
-          widget.alarmSettings!.notificationBody != null &&
-          widget.alarmSettings!.notificationBody!.isNotEmpty;
-      assetAudio = widget.alarmSettings!.assetAudioPath;
-    }
   }
 
   void _showDialog(Widget child) {
@@ -186,6 +152,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
               return;
             }
             var combinedTime = combinedDateTime(_selectedDate, _selectedTime);
+            String showNotification = jobInput.text;
             saveJob(jobInput, dateInput, timeInput, combinedTime, showNotification);
             Navigator.of(context).pop();
           },
