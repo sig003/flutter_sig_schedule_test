@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:alarm/alarm.dart';
 import 'package:sig_schedule_test/screens/library.dart';
+enum AlarmType { vibrate, volumeUp }
 
 class AddJobDialog extends StatefulWidget {
   const AddJobDialog({Key? key}) : super(key: key);
@@ -19,6 +19,10 @@ class _AddJobDialogState extends State<AddJobDialog> {
   TextEditingController timeInput = TextEditingController();
   DateTime _selectedDate = DateTime.now();
   DateTime _selectedTime = DateTime.now();
+
+  AlarmType? _alarmType = AlarmType.vibrate;
+  bool _selectedVivrate = true;
+  bool _selectedVolumeUp = false;
 
   @override
   void initState() {
@@ -154,9 +158,50 @@ class _AddJobDialogState extends State<AddJobDialog> {
                   SizedBox(height: 20.0),
                   Row(
                       children: <Widget>[
-                        Icon(Icons.vibration, color: Colors.blue),
-                        SizedBox(width: 50.0),
-                        Icon(Icons.volume_up),
+                        Expanded(
+                        // Icon(Icons.vibration, color: Colors.blue),
+                        // SizedBox(width: 50.0),
+                        // Icon(Icons.volume_up),
+                          child: ListTile(
+                            trailing: Icon(
+                                Icons.vibration,
+                                size: 40.0,
+                                color: (_selectedVivrate) ? Colors.blue : null),
+                            title: null,
+                            leading: Radio<AlarmType>(
+                              value: AlarmType.vibrate,
+                              groupValue: _alarmType,
+                              onChanged: (AlarmType? value) {
+                                setState(() {
+                                  _alarmType = value;
+                                  _selectedVivrate = true;
+                                  _selectedVolumeUp = false;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: ListTile(
+                            trailing: Icon(
+                                Icons.volume_up,
+                                size: 40.0,
+                                color: (_selectedVolumeUp) ? Colors.blue : null,
+                            ),
+                            title: null,
+                            leading: Radio<AlarmType>(
+                              value: AlarmType.volumeUp,
+                              groupValue: _alarmType,
+                              onChanged: (AlarmType? value) {
+                                setState(() {
+                                  _alarmType = value;
+                                  _selectedVivrate = false;
+                                  _selectedVolumeUp = true;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
                       ]
                   ),
                 ],
