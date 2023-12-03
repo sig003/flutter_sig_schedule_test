@@ -150,9 +150,10 @@ class _AddJobDialogState extends State<AddJobDialog> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                      'Alarm Type',
+                    'Alarm Type',
                     style: TextStyle(
-                      color: Color.fromARGB(255, 102, 102, 102), // 텍스트의 색상
+                      color: Color.fromARGB(255, 102, 102, 102),
+                      fontSize: 13.0,
                     ),
                   ),
                   SizedBox(height: 20.0),
@@ -165,7 +166,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
                           child: ListTile(
                             trailing: Icon(
                                 Icons.vibration,
-                                size: 40.0,
+                                size: 35.0,
                                 color: (_selectedVivrate) ? Colors.blue : null),
                             title: null,
                             leading: Radio<AlarmType>(
@@ -185,7 +186,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
                           child: ListTile(
                             trailing: Icon(
                                 Icons.volume_up,
-                                size: 40.0,
+                                size: 35.0,
                                 color: (_selectedVolumeUp) ? Colors.blue : null,
                             ),
                             title: null,
