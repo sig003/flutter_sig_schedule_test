@@ -135,6 +135,33 @@ class _AddJobDialogState extends State<AddJobDialog> {
                 );
               }
             ),
+            Container(
+              margin: EdgeInsets.only(
+                top: 20.0,
+                bottom: 0.0,
+                left: 0.0,
+                right: 0.0,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                      'Alarm Type',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 102, 102, 102), // 텍스트의 색상
+                    ),
+                  ),
+                  SizedBox(height: 20.0),
+                  Row(
+                      children: <Widget>[
+                        Icon(Icons.vibration, color: Colors.blue),
+                        SizedBox(width: 50.0),
+                        Icon(Icons.volume_up),
+                      ]
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
