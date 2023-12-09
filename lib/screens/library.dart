@@ -42,12 +42,20 @@ DateTime combinedDateTime(selectedDate, selectedTime) {
   return combinedDateTime;
 }
 
-void SetAlarm(randomNumber, combinedTime, showNotification) {
+void SetAlarm(randomNumber, combinedTime, showNotification, alarmType) {
+  bool audioValue = false;
+  bool vibrateValue = true;
+  if (alarmType != 'vibrate') {
+    audioValue = true;
+    vibrateValue = false;
+  }
+
   final alarmSettings = AlarmSettings(
     id: randomNumber,
     dateTime: combinedTime,
     assetAudioPath: 'assets/marimba.mp3',
-    volumeMax: false,
+    loopAudio: audioValue,
+    volumeMax: vibrateValue,
     notificationTitle: showNotification,
     notificationBody: showNotification,
     stopOnNotificationOpen: true,
@@ -55,7 +63,7 @@ void SetAlarm(randomNumber, combinedTime, showNotification) {
   Alarm.set(alarmSettings: alarmSettings);
 }
 
-void saveJob(jobInput, dateInput, timeInput, combinedTime, showNotification) async {
+void saveJob(jobInput, dateInput, timeInput, alarmType, combinedTime, showNotification) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
   int randomNumber = generateRandomNumberWithDigits(10);
@@ -65,6 +73,7 @@ void saveJob(jobInput, dateInput, timeInput, combinedTime, showNotification) asy
     'job': jobInput.text,
     'date': dateInput.text,
     'time': timeInput.text,
+    'alarm': alarmType,
     'state': 'normal'
   };
   String rawJson = jsonEncode(map);
@@ -81,7 +90,7 @@ void saveJob(jobInput, dateInput, timeInput, combinedTime, showNotification) asy
   ListArray.add(rawJson);
   prefs.setStringList('data', ListArray);
 
-  SetAlarm(randomNumber, combinedTime, showNotification);
+  SetAlarm(randomNumber, combinedTime, showNotification, alarmType);
 }
 
 Future<List<dynamic>> getData(bottomIndex) async {
@@ -123,6 +132,7 @@ void dataAction(action, id, widget) async {
           'job': jsonDecode(jsonData[i])['job'],
           'date': jsonDecode(jsonData[i])['date'],
           'time': jsonDecode(jsonData[i])['time'],
+          'alarm': jsonDecode(jsonData[i])['alarm'],
           'state': action
         };
         String rawJson = jsonEncode(map);
@@ -151,6 +161,7 @@ void deletePreference() async {
           'job': jsonDecode(jsonData[i])['job'],
           'date': jsonDecode(jsonData[i])['date'],
           'time': jsonDecode(jsonData[i])['time'],
+          'alarm': jsonDecode(jsonData[i])['alarm'],
           'state': 'normal'
         };
         String rawJson = jsonEncode(map);
@@ -204,5 +215,5 @@ void modifyJob(id, jobInput, dateInput, timeInput, combinedTime, showNotificatio
   ListArray.add(rawJson);
   prefs.setStringList('data', ListArray);
 
-  SetAlarm(id, combinedTime, showNotification);
+  //SetAlarm(id, combinedTime, showNotification);
 }

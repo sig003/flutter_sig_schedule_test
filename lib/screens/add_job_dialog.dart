@@ -17,6 +17,7 @@ class _AddJobDialogState extends State<AddJobDialog> {
   TextEditingController jobInput = TextEditingController();
   TextEditingController dateInput = TextEditingController();
   TextEditingController timeInput = TextEditingController();
+
   DateTime _selectedDate = DateTime.now();
   DateTime _selectedTime = DateTime.now();
 
@@ -226,7 +227,9 @@ class _AddJobDialogState extends State<AddJobDialog> {
             }
             var combinedTime = combinedDateTime(_selectedDate, _selectedTime);
             String showNotification = jobInput.text;
-            saveJob(jobInput, dateInput, timeInput, combinedTime, showNotification);
+
+            String selectedAlarmValue = (_alarmType == AlarmType.vibrate) ? 'vibrate' : 'volumeUp';
+            saveJob(jobInput, dateInput, timeInput, selectedAlarmValue, combinedTime, showNotification);
             Navigator.of(context).pop();
           },
         ),
