@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sig_schedule_test/screens/library.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+enum AlarmType { vibrate, volumeUp }
 
 Future<void> ModifyJobDialog(BuildContext context, id, execSetState) async {
   final _formKey = GlobalKey<FormState>();
@@ -12,11 +13,16 @@ Future<void> ModifyJobDialog(BuildContext context, id, execSetState) async {
   DateTime _selectedDate = DateTime.now();
   DateTime _selectedTime = DateTime.now();
 
+  AlarmType? _alarmType = AlarmType.vibrate;
+  bool _selectedVivrate = true;
+  bool _selectedVolumeUp = false;
+
   var result = await getSharedPreference(id);
 
   jobInput.text = result[0]['job'];
   dateInput.text = result[0]['date'];
   timeInput.text = result[0]['time'];
+  _alarmType = ( result[0]['alarm'] == 'vibrate' ) ? AlarmType.vibrate : AlarmType.volumeUp;
 
   void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(
@@ -125,6 +131,51 @@ Future<void> ModifyJobDialog(BuildContext context, id, execSetState) async {
                     );
                   }
               ),
+              SizedBox(height: 20.0),
+              Row(
+                  children: <Widget>[
+                    Expanded(
+                      // Icon(Icons.vibration, color: Colors.blue),
+                      // SizedBox(width: 50.0),
+                      // Icon(Icons.volume_up),
+                      child: ListTile(
+                        trailing: Icon(
+                            Icons.vibration,
+                            size: 35.0,
+                            color: (_selectedVivrate) ? Colors.blue : null),
+                        title: null,
+                        leading: Radio<AlarmType>(
+                          value: AlarmType.vibrate,
+                          groupValue: _alarmType,
+                          onChanged: (AlarmType? value) {
+                              _alarmType = value;
+                              _selectedVivrate = true;
+                              _selectedVolumeUp = false;
+                          },
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListTile(
+                        trailing: Icon(
+                          Icons.volume_up,
+                          size: 35.0,
+                          color: (_selectedVolumeUp) ? Colors.blue : null,
+                        ),
+                        title: null,
+                        leading: Radio<AlarmType>(
+                          value: AlarmType.volumeUp,
+                          groupValue: _alarmType,
+                          onChanged: (AlarmType? value) {
+                              _alarmType = value;
+                              _selectedVivrate = false;
+                              _selectedVolumeUp = true;
+                          },
+                        ),
+                      ),
+                    ),
+                  ]
+              ),
             ],
           ),
         ),
@@ -141,9 +192,11 @@ Future<void> ModifyJobDialog(BuildContext context, id, execSetState) async {
                 if (!_formKey.currentState!.validate()) {
                   return;
                 }
-                var showNotification = true;
+                var showNotification = jobInput.text;
                 var combinedTime = combinedDateTime(_selectedDate, _selectedTime);
-                modifyJob(id, jobInput, dateInput, timeInput, combinedTime, showNotification);
+
+                String selectedAlarmValue = (_alarmType == AlarmType.vibrate) ? 'vibrate' : 'volumeUp';
+                modifyJob(id, jobInput, dateInput, timeInput, selectedAlarmValue, combinedTime, showNotification);
                 execSetState();
                 Navigator.pop(context);
               }

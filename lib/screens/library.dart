@@ -189,7 +189,7 @@ Future<int> getDeleteBadgesCount() async {
   return count;
 }
 
-void modifyJob(id, jobInput, dateInput, timeInput, combinedTime, showNotification) async {
+void modifyJob(id, jobInput, dateInput, timeInput, alarmType, combinedTime, showNotification) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   List<String> jsonData = prefs.getStringList('data') ?? [];
 
@@ -198,6 +198,7 @@ void modifyJob(id, jobInput, dateInput, timeInput, combinedTime, showNotificatio
     'job': jobInput.text,
     'date': dateInput.text,
     'time': timeInput.text,
+    'alarm': alarmType,
     'state': 'normal'
   };
   String rawJson = jsonEncode(map);
@@ -207,7 +208,7 @@ void modifyJob(id, jobInput, dateInput, timeInput, combinedTime, showNotificatio
   if (jsonData.length > 0) {
     for (int i = 0; i < jsonData.length; i += 1) {
       if (jsonDecode(jsonData[i])['id'] != id) {
-        ListArray.add(jsonDecode(jsonData[i]));
+        ListArray.add(jsonData[i]);
       }
     }
   }
