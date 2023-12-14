@@ -232,7 +232,7 @@ class _ModifyJobDialogState extends State<ModifyJobDialog> {
           },
         ),
         TextButton(
-          child: const Text('Add'),
+          child: const Text('Modify'),
           onPressed: () {
             if (!_formKey.currentState!.validate()) {
               return;
