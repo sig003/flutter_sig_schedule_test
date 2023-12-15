@@ -81,8 +81,22 @@ class _ScheduleListState extends State<ScheduleList> {
                                           children: [
                                             Container(
                                               child: IconButton(
+                                                  icon: (resultData?[index]['alarm'] == 'vibrate') ? const Icon(Icons.vibration) : const Icon(Icons.volume_up),
+                                                  color: Colors.grey.shade700,
+                                                  onPressed: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        return ModifyJobDialog(id: resultData?[index]['id'], execSetState: execSetState);
+                                                      },
+                                                    );
+                                                  }
+                                              ),
+                                            ),
+                                            Container(
+                                              child: IconButton(
                                                   icon: const Icon(Icons.done_rounded),
-                                                  color: Colors.green,
+                                                  color: Colors.grey.shade700,
                                                   onPressed: () {
                                                     DoneJobDialog(context, resultData?[index]['id'], widget);
                                                   }
@@ -92,7 +106,7 @@ class _ScheduleListState extends State<ScheduleList> {
                                               padding: EdgeInsets.only(right: 10),
                                               child: IconButton(
                                                   icon: const Icon(Icons.delete_rounded),
-                                                  color: Colors.red,
+                                                  color: Colors.grey.shade700,
                                                   onPressed: () {
                                                     DeleteJobDialog(context, resultData?[index]['id'], widget);
                                                   }
