@@ -216,5 +216,5 @@ void modifyJob(id, jobInput, dateInput, timeInput, alarmType, combinedTime, show
   ListArray.add(rawJson);
   prefs.setStringList('data', ListArray);
 
-  //SetAlarm(id, combinedTime, showNotification);
+  SetAlarm(id, combinedTime, showNotification, alarmType);
 }
