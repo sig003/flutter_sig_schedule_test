@@ -8,15 +8,9 @@ class JobName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets
-            .fromLTRB(8, 5, 0, 5),
-    child: Text(
-        jobName ??
-    'None',
-    style: TextStyle(
-    fontSize: 17,
-    fontWeight: FontWeight
-        .bold)),
+        padding: const EdgeInsets.fromLTRB(8, 5, 0, 5),
+        child: Text(jobName ?? 'None', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)
+        ),
     );
   }
 }

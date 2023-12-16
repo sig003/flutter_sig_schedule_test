@@ -67,8 +67,7 @@ class _ScheduleListState extends State<ScheduleList> {
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Column(
-                                                  crossAxisAlignment: CrossAxisAlignment
-                                                      .start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     JobName(jobName: resultData?[index]['job'] ?? 'None'),
                                                     DateAndTimeString(dateString: resultData?[index]['date'] ?? 'None', timeString: resultData?[index]['time'] ?? 'None'),
