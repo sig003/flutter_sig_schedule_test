@@ -67,65 +67,18 @@ class _ModifyJobDialogState extends State<ModifyJobDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Modify Job'),
-      content: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextFormField(
-              controller: jobInput,
-              autovalidateMode:AutovalidateMode.onUserInteraction,
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Job',
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-                controller: dateInput,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'Date',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-                readOnly: true,
-                onTap: () async {
-                  DateTime? pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2101)
-                  );
-
-                  if (pickedDate != null ) {
-                    String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-
-                    setState(() {
-                      _selectedDate = pickedDate;
-                      dateInput.text = formattedDate;
-                    });
-                  } else {
-                    print("Date is not selected");
-                  }
-                }
-            ),
-            TextFormField(
-                controller: timeInput,
+      content: SingleChildScrollView(
+      child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: jobInput,
                 autovalidateMode:AutovalidateMode.onUserInteraction,
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
-                  labelText: 'Time',
+                  labelText: 'Job',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -133,95 +86,144 @@ class _ModifyJobDialogState extends State<ModifyJobDialog> {
                   }
                   return null;
                 },
-                readOnly: true,
-                onTap: () async {
-                  _showDialog(
-                    CupertinoDatePicker(
-                      initialDateTime: DateTime.now(),
-                      mode: CupertinoDatePickerMode.time,
-                      use24hFormat: true,
-                      onDateTimeChanged: (DateTime newTime) {
-                        setState(() {
-                          _selectedTime = newTime;
-                          String formattedTime = DateFormat('HH:mm').format(newTime);
-                          timeInput.text = formattedTime;
-                        }
-                        );
-                      },
-                    ),
-                  );
-                }
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: 20.0,
-                bottom: 0.0,
-                left: 0.0,
-                right: 0.0,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Alarm Type',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 102, 102, 102),
-                      fontSize: 13.0,
-                    ),
+              TextFormField(
+                  controller: dateInput,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    labelText: 'Date',
                   ),
-                  SizedBox(height: 20.0),
-                  Row(
-                      children: <Widget>[
-                        Expanded(
-                          // Icon(Icons.vibration, color: Colors.blue),
-                          // SizedBox(width: 50.0),
-                          // Icon(Icons.volume_up),
-                          child: ListTile(
-                            trailing: Icon(
-                                Icons.vibration,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  readOnly: true,
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2101)
+                    );
+
+                    if (pickedDate != null ) {
+                      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+
+                      setState(() {
+                        _selectedDate = pickedDate;
+                        dateInput.text = formattedDate;
+                      });
+                    } else {
+                      print("Date is not selected");
+                    }
+                  }
+              ),
+              TextFormField(
+                  controller: timeInput,
+                  autovalidateMode:AutovalidateMode.onUserInteraction,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    labelText: 'Time',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  readOnly: true,
+                  onTap: () async {
+                    _showDialog(
+                      CupertinoDatePicker(
+                        initialDateTime: DateTime.now(),
+                        mode: CupertinoDatePickerMode.time,
+                        use24hFormat: true,
+                        onDateTimeChanged: (DateTime newTime) {
+                          setState(() {
+                            _selectedTime = newTime;
+                            String formattedTime = DateFormat('HH:mm').format(newTime);
+                            timeInput.text = formattedTime;
+                          }
+                          );
+                        },
+                      ),
+                    );
+                  }
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                  top: 20.0,
+                  bottom: 0.0,
+                  left: 0.0,
+                  right: 0.0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Alarm Type',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 102, 102, 102),
+                        fontSize: 13.0,
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
+                    Row(
+                        children: <Widget>[
+                          Expanded(
+                            // Icon(Icons.vibration, color: Colors.blue),
+                            // SizedBox(width: 50.0),
+                            // Icon(Icons.volume_up),
+                            child: ListTile(
+                              trailing: Icon(
+                                  Icons.vibration,
+                                  size: 35.0,
+                                  color: (_selectedVivrate) ? Colors.blue : null),
+                              title: null,
+                              leading: Radio<AlarmType>(
+                                value: AlarmType.vibrate,
+                                groupValue: _alarmType,
+                                onChanged: (AlarmType? value) {
+                                  setState(() {
+                                    _alarmType = value;
+                                    _selectedVivrate = true;
+                                    _selectedVolumeUp = false;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: ListTile(
+                              trailing: Icon(
+                                Icons.volume_up,
                                 size: 35.0,
-                                color: (_selectedVivrate) ? Colors.blue : null),
-                            title: null,
-                            leading: Radio<AlarmType>(
-                              value: AlarmType.vibrate,
-                              groupValue: _alarmType,
-                              onChanged: (AlarmType? value) {
-                                setState(() {
-                                  _alarmType = value;
-                                  _selectedVivrate = true;
-                                  _selectedVolumeUp = false;
-                                });
-                              },
+                                color: (_selectedVolumeUp) ? Colors.blue : null,
+                              ),
+                              title: null,
+                              leading: Radio<AlarmType>(
+                                value: AlarmType.volumeUp,
+                                groupValue: _alarmType,
+                                onChanged: (AlarmType? value) {
+                                  setState(() {
+                                    _alarmType = value;
+                                    _selectedVivrate = false;
+                                    _selectedVolumeUp = true;
+                                  });
+                                },
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: ListTile(
-                            trailing: Icon(
-                              Icons.volume_up,
-                              size: 35.0,
-                              color: (_selectedVolumeUp) ? Colors.blue : null,
-                            ),
-                            title: null,
-                            leading: Radio<AlarmType>(
-                              value: AlarmType.volumeUp,
-                              groupValue: _alarmType,
-                              onChanged: (AlarmType? value) {
-                                setState(() {
-                                  _alarmType = value;
-                                  _selectedVivrate = false;
-                                  _selectedVolumeUp = true;
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                      ]
-                  ),
-                ],
+                        ]
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       actions: <Widget>[
