@@ -26,18 +26,12 @@ class DateAndTimeString extends StatelessWidget {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets
-              .all(8.0),
-          child: Text(
-              dateString ??
-                  'None'),
+          padding: const EdgeInsets.all(8.0),
+          child: Text(dateString ?? 'None'),
         ),
         Padding(
-          padding: const EdgeInsets
-              .all(8.0),
-          child: Text(
-              timeString ??
-                  'None'),
+          padding: const EdgeInsets.all(8.0),
+          child: Text(timeString ?? 'None'),
         ),
       ],
     );

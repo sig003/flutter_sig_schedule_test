@@ -53,72 +53,73 @@ class _ScheduleListState extends State<ScheduleList> {
                             //ModifyJobDialog(context, resultData?[index]['id'], execSetState);
 
                             },
-                        child: Container(
-                          height: 80,
-                          child: Card(
-                            child: Container(
-                                child: Center(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                            padding: EdgeInsets.only(left: 10),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Container(
+                            child: Card(
+                              child: Container(
+                                  child: Center(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(child:
+                                            Container(
+                                                padding: EdgeInsets.only(left: 10),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    JobName(jobName: resultData?[index]['job'] ?? 'None'),
-                                                    DateAndTimeString(dateString: resultData?[index]['date'] ?? 'None', timeString: resultData?[index]['time'] ?? 'None'),
+                                                    Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        JobName(jobName: resultData?[index]['job'] ?? 'None'),
+                                                        DateAndTimeString(dateString: resultData?[index]['date'] ?? 'None', timeString: resultData?[index]['time'] ?? 'None'),
+                                                      ],
+                                                    ),
                                                   ],
+                                                )
+                                            ),
+                                          ),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                child: IconButton(
+                                                    icon: (resultData?[index]['alarm'] == 'vibrate') ? const Icon(Icons.vibration) : const Icon(Icons.volume_up),
+                                                    color: Colors.grey.shade700,
+                                                    onPressed: () {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext context) {
+                                                          return ModifyJobDialog(id: resultData?[index]['id'], execSetState: execSetState);
+                                                        },
+                                                      );
+                                                    }
                                                 ),
-                                              ],
-                                            )
-                                        ),
-                                        Row(
-                                          children: [
-                                            Container(
-                                              child: IconButton(
-                                                  icon: (resultData?[index]['alarm'] == 'vibrate') ? const Icon(Icons.vibration) : const Icon(Icons.volume_up),
-                                                  color: Colors.grey.shade700,
-                                                  onPressed: () {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext context) {
-                                                        return ModifyJobDialog(id: resultData?[index]['id'], execSetState: execSetState);
-                                                      },
-                                                    );
-                                                  }
                                               ),
-                                            ),
-                                            Container(
-                                              child: IconButton(
-                                                  icon: const Icon(Icons.done_rounded),
-                                                  color: Colors.grey.shade700,
-                                                  onPressed: () {
-                                                    DoneJobDialog(context, resultData?[index]['id'], widget);
-                                                  }
+                                              Container(
+                                                child: IconButton(
+                                                    icon: const Icon(Icons.done_rounded),
+                                                    color: Colors.grey.shade700,
+                                                    onPressed: () {
+                                                      DoneJobDialog(context, resultData?[index]['id'], widget);
+                                                    }
+                                                ),
                                               ),
-                                            ),
-                                            Container(
-                                              padding: EdgeInsets.only(right: 10),
-                                              child: IconButton(
-                                                  icon: const Icon(Icons.delete_rounded),
-                                                  color: Colors.grey.shade700,
-                                                  onPressed: () {
-                                                    DeleteJobDialog(context, resultData?[index]['id'], widget);
-                                                  }
+                                              Container(
+                                                padding: EdgeInsets.only(right: 10),
+                                                child: IconButton(
+                                                    icon: const Icon(Icons.delete_rounded),
+                                                    color: Colors.grey.shade700,
+                                                    onPressed: () {
+                                                      DeleteJobDialog(context, resultData?[index]['id'], widget);
+                                                    }
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    )
-                                )
+                                            ],
+                                          ),
+                                        ],
+                                      )
+                                  )
+                              ),
                             ),
                           ),
-                        ),
                         ),
                       ]
                   );
