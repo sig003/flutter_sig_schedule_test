@@ -74,6 +74,7 @@ class _ModifyJobDialogState extends State<ModifyJobDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextFormField(
+                maxLength: 30,
                 controller: jobInput,
                 autovalidateMode:AutovalidateMode.onUserInteraction,
                 decoration: const InputDecoration(
