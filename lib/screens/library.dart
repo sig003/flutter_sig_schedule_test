@@ -43,23 +43,22 @@ DateTime combinedDateTime(selectedDate, selectedTime) {
 }
 
 void SetAlarm(randomNumber, combinedTime, showNotification, alarmType) {
-  bool audioValue = false;
-  bool vibrateValue = true;
-  if (alarmType != 'vibrate') {
-    audioValue = true;
-    vibrateValue = false;
-  }
-
   final alarmSettings = AlarmSettings(
     id: randomNumber,
     dateTime: combinedTime,
     assetAudioPath: 'assets/marimba.mp3',
-    loopAudio: audioValue,
-    volumeMax: vibrateValue,
+    vibrate: true,
+    loopAudio: true,
+    volume: 0.5,
+    fadeDuration: 3.0,
     notificationTitle: showNotification,
     notificationBody: showNotification,
-    stopOnNotificationOpen: true,
+    enableNotificationOnKill: true,
   );
+
+  // if (alarmType == 'vibrate') {
+  //   alarmSettings.assetAudioPath = 'assets/marimba.mp3';
+  // }
   Alarm.set(alarmSettings: alarmSettings);
 }
 
