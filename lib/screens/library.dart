@@ -42,7 +42,9 @@ DateTime combinedDateTime(selectedDate, selectedTime) {
   return combinedDateTime;
 }
 
-void SetAlarm(randomNumber, combinedTime, showNotification, alarmType) {
+void SetAlarm(randomNumber, combinedTime, showNotification, alarmType) async {
+  await Alarm.init(showDebugLogs: true);
+
   final alarmSettings = AlarmSettings(
     id: randomNumber,
     dateTime: combinedTime,
@@ -59,7 +61,12 @@ void SetAlarm(randomNumber, combinedTime, showNotification, alarmType) {
   // if (alarmType == 'vibrate') {
   //   alarmSettings.assetAudioPath = 'assets/marimba.mp3';
   // }
-  Alarm.set(alarmSettings: alarmSettings);
+  await Alarm.set(alarmSettings: alarmSettings);
+  await Alarm.setNotificationOnAppKillContent(showNotification, showNotification);
+}
+
+void StopAlarm(randomNumber) async {
+  await Alarm.stop(randomNumber);
 }
 
 void saveJob(jobInput, dateInput, timeInput, alarmType, combinedTime, showNotification) async {
