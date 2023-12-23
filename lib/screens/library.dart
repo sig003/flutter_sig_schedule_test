@@ -43,19 +43,18 @@ DateTime combinedDateTime(selectedDate, selectedTime) {
 }
 
 void SetAlarm(randomNumber, combinedTime, showNotification, alarmType) async {
-  await Alarm.init(showDebugLogs: true);
-
   final alarmSettings = AlarmSettings(
     id: randomNumber,
     dateTime: combinedTime,
     assetAudioPath: 'assets/marimba.mp3',
     vibrate: true,
     loopAudio: true,
-    volume: 0.5,
+    volume: 0.2,
     fadeDuration: 3.0,
     notificationTitle: showNotification,
     notificationBody: showNotification,
     enableNotificationOnKill: true,
+      androidFullScreenIntent: true,
   );
 
   // if (alarmType == 'vibrate') {
