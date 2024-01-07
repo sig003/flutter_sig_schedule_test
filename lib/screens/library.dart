@@ -64,8 +64,9 @@ void SetAlarm(randomNumber, combinedTime, showNotification, alarmType) async {
   await Alarm.setNotificationOnAppKillContent(showNotification, showNotification);
 }
 
-void StopAlarm(randomNumber) async {
+void StopAlarm(randomNumber, Function allHiddenIcon) async {
   await Alarm.stop(randomNumber);
+  await allHiddenIcon();
 }
 
 void saveJob(jobInput, dateInput, timeInput, alarmType, combinedTime, showNotification) async {

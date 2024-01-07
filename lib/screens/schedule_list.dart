@@ -20,7 +20,12 @@ class _ScheduleListState extends State<ScheduleList> {
 
     });
   }
-
+  bool _visibility = true;
+  void allHiddenIcon() {
+    setState(() {
+      _visibility = false;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -85,11 +90,21 @@ class _ScheduleListState extends State<ScheduleList> {
                                           Row(
                                             children: [
                                               Container(
+                                                child: Visibility(
+                                                  child: IconButton(
+                                                    icon: const Icon(Icons.clear),
+                                                    color: Colors.red.shade700,
+                                                    onPressed: () {},
+                                                  ),
+                                                  visible: _visibility,
+                                                ),
+                                              ),
+                                              Container(
                                                 child: IconButton(
                                                     icon: const Icon(Icons.clear),
                                                     color: Colors.grey.shade700,
                                                   onPressed: () {
-                                                    StopAlarm(jobId);
+                                                    StopAlarm(jobId, allHiddenIcon);
                                                   },
                                                 ),
                                               ),
