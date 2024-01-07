@@ -39,6 +39,13 @@ class _ScheduleListState extends State<ScheduleList> {
             itemCount: dataLength,
             itemBuilder: (BuildContext context, int index) {
                 List<dynamic>? resultData = snapshot.data;
+
+                int jobId = resultData?[index]['id'];
+                String jobName = resultData?[index]['job'] ?? 'None';
+                String dateString = resultData?[index]['date'] ?? 'None';
+                String timeString = resultData?[index]['time'] ?? 'None';
+                String alarmType = resultData?[index]['alarm'] ?? 'None';
+
                   return Column(
                       children: [
                         SizedBox(height: 10,),
@@ -47,11 +54,9 @@ class _ScheduleListState extends State<ScheduleList> {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return ModifyJobDialog(id: resultData?[index]['id'], execSetState: execSetState);
+                                return ModifyJobDialog(id: jobId, execSetState: execSetState);
                               },
                             );
-                            //ModifyJobDialog(context, resultData?[index]['id'], execSetState);
-
                             },
                           child: Container(
                             child: Card(
@@ -69,8 +74,8 @@ class _ScheduleListState extends State<ScheduleList> {
                                                     Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
-                                                        JobName(jobName: resultData?[index]['job'] ?? 'None'),
-                                                        DateAndTimeString(dateString: resultData?[index]['date'] ?? 'None', timeString: resultData?[index]['time'] ?? 'None'),
+                                                        JobName(jobName: jobName),
+                                                        DateAndTimeString(dateString: dateString, timeString: timeString),
                                                       ],
                                                     ),
                                                   ],
@@ -84,19 +89,19 @@ class _ScheduleListState extends State<ScheduleList> {
                                                     icon: const Icon(Icons.clear),
                                                     color: Colors.grey.shade700,
                                                   onPressed: () {
-                                                    StopAlarm(resultData?[index]['id']);
+                                                    StopAlarm(jobId);
                                                   },
                                                 ),
                                               ),
                                               Container(
                                                 child: IconButton(
-                                                    icon: (resultData?[index]['alarm'] == 'vibrate') ? const Icon(Icons.vibration) : const Icon(Icons.volume_up),
+                                                    icon: (alarmType == 'vibrate') ? const Icon(Icons.vibration) : const Icon(Icons.volume_up),
                                                     color: Colors.grey.shade700,
                                                     onPressed: () {
                                                       showDialog(
                                                         context: context,
                                                         builder: (BuildContext context) {
-                                                          return ModifyJobDialog(id: resultData?[index]['id'], execSetState: execSetState);
+                                                          return ModifyJobDialog(id: jobId, execSetState: execSetState);
                                                         },
                                                       );
                                                     }
@@ -107,7 +112,7 @@ class _ScheduleListState extends State<ScheduleList> {
                                                     icon: const Icon(Icons.done_rounded),
                                                     color: Colors.grey.shade700,
                                                     onPressed: () {
-                                                      DoneJobDialog(context, resultData?[index]['id'], widget);
+                                                      DoneJobDialog(context, jobId, widget);
                                                     }
                                                 ),
                                               ),
@@ -117,7 +122,7 @@ class _ScheduleListState extends State<ScheduleList> {
                                                     icon: const Icon(Icons.delete_rounded),
                                                     color: Colors.grey.shade700,
                                                     onPressed: () {
-                                                      DeleteJobDialog(context, resultData?[index]['id'], widget);
+                                                      DeleteJobDialog(context, jobId, widget);
                                                     }
                                                 ),
                                               ),
