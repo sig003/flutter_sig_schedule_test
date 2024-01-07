@@ -85,7 +85,6 @@ class _ScheduleListState extends State<ScheduleList> {
                                                     color: Colors.grey.shade700,
                                                   onPressed: () {
                                                     StopAlarm(resultData?[index]['id']);
-                                                    // 원하는 다른 동작을 수행해도 됩니다.
                                                   },
                                                 ),
                                               ),
